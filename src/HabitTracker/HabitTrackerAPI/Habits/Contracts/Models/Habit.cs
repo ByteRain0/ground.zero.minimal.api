@@ -1,4 +1,4 @@
-namespace HabitTrackerAPI.Contracts.Models;
+namespace HabitTrackerAPI.Habits.Contracts.Models;
 
 public class Habit
 {

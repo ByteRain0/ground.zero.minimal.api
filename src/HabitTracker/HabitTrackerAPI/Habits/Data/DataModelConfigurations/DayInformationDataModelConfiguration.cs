@@ -1,9 +1,9 @@
-using HabitTrackerAPI.Data.Convertors;
-using HabitTrackerAPI.Data.DataModel;
+using HabitTrackerAPI.Habits.Data.Convertors;
+using HabitTrackerAPI.Habits.Data.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace HabitTrackerAPI.Data.DataModelConfigurations;
+namespace HabitTrackerAPI.Habits.Data.DataModelConfigurations;
 
 public class DayInformationDataModelConfiguration : IEntityTypeConfiguration<DayInformationDataModel>
 {

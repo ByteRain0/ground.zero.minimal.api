@@ -1,7 +1,7 @@
-using HabitTrackerAPI.Data.DataModel;
+using HabitTrackerAPI.Habits.Data.DataModel;
 using Microsoft.EntityFrameworkCore;
 
-namespace HabitTrackerAPI.Data;
+namespace HabitTrackerAPI.Habits.Data;
 
 public static class ApplicationDbContextSeed
 {

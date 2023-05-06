@@ -1,6 +1,6 @@
-using HabitTrackerAPI.Contracts.Models;
+using HabitTrackerAPI.Habits.Contracts.Models;
 
-namespace HabitTrackerAPI.Service;
+namespace HabitTrackerAPI.Habits.Contracts;
 
 public interface IHabitService
 {

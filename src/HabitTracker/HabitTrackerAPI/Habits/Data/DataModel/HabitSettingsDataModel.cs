@@ -1,4 +1,4 @@
-namespace HabitTrackerAPI.Data.DataModel;
+namespace HabitTrackerAPI.Habits.Data.DataModel;
 
 public class HabitSettingsDataModel
 {

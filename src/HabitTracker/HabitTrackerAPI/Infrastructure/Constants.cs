@@ -1,4 +1,4 @@
-namespace HabitTrackerAPI;
+namespace HabitTrackerAPI.Infrastructure;
 
 public static class Constants
 {

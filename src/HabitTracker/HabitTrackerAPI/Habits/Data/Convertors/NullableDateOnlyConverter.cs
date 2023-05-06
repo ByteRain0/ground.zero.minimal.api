@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace HabitTrackerAPI.Data.Convertors;
+namespace HabitTrackerAPI.Habits.Data.Convertors;
 
 /// <summary>
 /// Converts <see cref="DateOnly?" /> to <see cref="DateTime?"/> and vice versa.

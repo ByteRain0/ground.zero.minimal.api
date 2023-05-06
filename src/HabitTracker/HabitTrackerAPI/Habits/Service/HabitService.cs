@@ -1,8 +1,10 @@
-using HabitTrackerAPI.Contracts.Models;
-using HabitTrackerAPI.Data;
-using HabitTrackerAPI.Data.DataModel;
+using HabitTrackerAPI.Habits.Contracts;
+using HabitTrackerAPI.Habits.Contracts.Models;
+using HabitTrackerAPI.Habits.Data;
+using HabitTrackerAPI.Habits.Data.DataModel;
+using Microsoft.EntityFrameworkCore;
 
-namespace HabitTrackerAPI.Service;
+namespace HabitTrackerAPI.Habits.Service;
 public class HabitService : IHabitService
 {
     private readonly ApplicationDbContext _applicationDbContext;
@@ -40,9 +42,19 @@ public class HabitService : IHabitService
         };
     }
 
-    public ValueTask<List<Habit>> GetHabitsAsync(CancellationToken cancellationToken)
+    public async ValueTask<List<Habit>> GetHabitsAsync(CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        //In future here you might add pagination
+        
+        var habits = await _applicationDbContext.Habits.ToListAsync(cancellationToken);
+
+        //Might use mapper with projections
+        return habits.Select(x => new Habit
+        {
+            Id = x.Id,
+            Name = x.Name,
+            Settings = new HabitSettings()
+        }).ToList();
     }
     
     public ValueTask<int> GetHabitCurrentStreakAsync(int id, CancellationToken cancellationToken) 
@@ -65,8 +77,11 @@ public class HabitService : IHabitService
         throw new NotImplementedException();
     }
     
-    public Task RemoveHabitAsync(int id)
+    public async Task RemoveHabitAsync(int id)
     {
-        throw new NotImplementedException();
+        // We already ensure the entity exists before removing it.
+        // A new way to remove entities by id is on its way as far as I know so we will replace to that afterwards.
+        _applicationDbContext.Habits.Remove((await _applicationDbContext.Habits.FindAsync(id))!);
+        await _applicationDbContext.SaveChangesAsync();
     }
 }

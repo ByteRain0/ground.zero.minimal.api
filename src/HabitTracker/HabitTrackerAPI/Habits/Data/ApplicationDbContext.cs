@@ -1,8 +1,8 @@
-using HabitTrackerAPI.Data.DataModel;
+using HabitTrackerAPI.Habits.Data.DataModel;
 using HabitTrackerAPI.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-namespace HabitTrackerAPI.Data;
+namespace HabitTrackerAPI.Habits.Data;
 
 public class ApplicationDbContext : DbContext
 {
