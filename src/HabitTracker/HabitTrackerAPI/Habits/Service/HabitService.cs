@@ -67,9 +67,20 @@ public class HabitService : IHabitService
         throw new NotImplementedException();
     }
     
-    public Task<bool> UpdateHabitAsync(Habit habit)
+    public async Task<Habit?> UpdateHabitAsync(Habit model)
     {
-        throw new NotImplementedException();
+        var habit = await _applicationDbContext.Habits.FirstOrDefaultAsync(x => x.Id == model.Id);
+
+        if (habit == null)
+        {
+            return null;
+        }
+
+        habit.Name = model.Name;
+        _applicationDbContext.Habits.Update(habit);
+        await _applicationDbContext.SaveChangesAsync();
+
+        return model;
     }
     
     public Task<bool> UpdateHabitStatus(int id, DateTime dateTime)

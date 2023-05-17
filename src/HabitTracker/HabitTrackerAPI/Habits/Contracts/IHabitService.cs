@@ -10,7 +10,7 @@ public interface IHabitService
 
     ValueTask<List<Habit>> GetHabitsAsync(CancellationToken cancellationToken);
 
-    Task<bool> UpdateHabitAsync(Habit habit);
+    Task<Habit?> UpdateHabitAsync(Habit habit);
 
     Task RemoveHabitAsync(int id);
 

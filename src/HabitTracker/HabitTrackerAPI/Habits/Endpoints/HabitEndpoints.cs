@@ -2,6 +2,7 @@ using HabitTrackerAPI.Habits.Contracts;
 using HabitTrackerAPI.Habits.Contracts.Models;
 using HabitTrackerAPI.Infrastructure;
 using HabitTrackerAPI.Infrastructure.Endpoints;
+using Microsoft.AspNetCore.Http.HttpResults;
 using O9d.AspNet.FluentValidation;
 
 namespace HabitTrackerAPI.Habits.Endpoints;
@@ -79,25 +80,19 @@ internal class HabitEndpoints : IEndpointsDefinition
 
     private static async Task<IResult> UpdateHabitAsync(
         int id, 
-        Habit model, 
+        [Validate] Habit model, 
         IHabitService service)
     {
-        var habit = await service.GetHabitAsync(id, CancellationToken.None);
+        model.Id = id;
+        
+        var habit = await service.UpdateHabitAsync(model);
 
-        if (habit is null)
+        if (habit == null)
         {
             return Results.NotFound();
         }
 
-        var successFullUpdate = await service.UpdateHabitAsync(habit);
-
-        if (!successFullUpdate)
-        {
-            //In the future revert to an Result / OneOf approach to get more details
-            return Results.Problem("Update failure");
-        }
-
-        return Results.Ok();
+        return Results.Ok(habit);
     }
 
     private static async Task<IResult> RemoveHabitAsync(int id, IHabitService service)
