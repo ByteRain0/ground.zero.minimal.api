@@ -14,7 +14,7 @@ builder.Services.AddSwaggerGen(config =>
 });
 builder.Services.AddSwaggerExamplesFromAssemblyOf<Program>();
 builder.Services.AddHabits(builder.Configuration);
-
+builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
 var app = builder.Build();
 app.UseSwagger();

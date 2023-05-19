@@ -1,5 +1,4 @@
 using FluentValidation;
-using HabitTrackerAPI.Data;
 using HabitTrackerAPI.Habits.Contracts;
 using HabitTrackerAPI.Habits.Contracts.Validators;
 using HabitTrackerAPI.Habits.Data;

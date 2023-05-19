@@ -2,7 +2,6 @@ using HabitTrackerAPI.Habits.Contracts;
 using HabitTrackerAPI.Habits.Contracts.Models;
 using HabitTrackerAPI.Infrastructure;
 using HabitTrackerAPI.Infrastructure.Endpoints;
-using Microsoft.AspNetCore.Http.HttpResults;
 using O9d.AspNet.FluentValidation;
 
 namespace HabitTrackerAPI.Habits.Endpoints;
@@ -43,6 +42,26 @@ internal class HabitEndpoints : IEndpointsDefinition
             .Produces(404)
             .Produces(204)
             .WithName("RemoveHabit");
+
+        group.MapGet("/{id:int}/calendar", GetMonthlyCompletionStatus)
+            .Produces(404)
+            .Produces<List<DayInformation>>(200)
+            .WithName("MonthlyCompletionStatus");
+
+        group.MapGet("/{id:int}/currentStreak", GetCurrentStreak)
+            .Produces(404)
+            .Produces<int>(200)
+            .WithName("CurrentHabitStreak");
+        
+        group.MapGet("/{id:int}/longestStreak", GetLongestStreak)
+            .Produces(404)
+            .Produces<int>(200)
+            .WithName("CurrentHabitLongestStreak");
+
+        group.MapPut("/{id:int}/status/{date}", UpdateCompletionStatus)
+            .Produces(404)
+            .Produces(200)
+            .WithName("UpdateCompletionStatus");
     }
     
     private static async Task<IResult> CreateHabitAsync(
@@ -95,7 +114,9 @@ internal class HabitEndpoints : IEndpointsDefinition
         return Results.Ok(habit);
     }
 
-    private static async Task<IResult> RemoveHabitAsync(int id, IHabitService service)
+    private static async Task<IResult> RemoveHabitAsync(
+        int id, 
+        IHabitService service)
     {   
         var habit = await service.GetHabitAsync(id, CancellationToken.None);
 
@@ -109,5 +130,64 @@ internal class HabitEndpoints : IEndpointsDefinition
         return Results.Ok();
     }
 
+    private static async Task<IResult> GetMonthlyCompletionStatus(
+        int id,
+        IHabitService service,
+        IDateTimeProvider dateTimeProvider,
+        CancellationToken cancellationToken)
+    { 
+        var habit = await service.GetHabitAsync(id, CancellationToken.None);
 
+        if (habit is null)
+        {
+            return Results.NotFound();
+        }
+
+        return Results.Ok(
+            service.GetMonthlyCompletionStatus(
+                id, DateOnly.FromDateTime(dateTimeProvider.CurrentTime()), cancellationToken));
+    }
+
+    private static async Task<IResult> GetCurrentStreak(
+        int id,
+        IHabitService service,
+        CancellationToken cancellationToken)
+    {
+        // Might want to move this to a separate private method to deduplicate code.
+        var habit = await service.GetHabitAsync(id, CancellationToken.None);
+
+        if (habit is null)
+        {
+            return Results.NotFound();
+        }
+        
+        return Results.Ok(service.GetHabitCurrentStreakAsync(id, cancellationToken));
+    }
+    
+    private static async Task<IResult> GetLongestStreak(
+        int id, 
+        IHabitService service,
+        CancellationToken cancellationToken)
+    {
+        var habit = await service.GetHabitAsync(id, CancellationToken.None);
+
+        if (habit is null)
+        {
+            return Results.NotFound();
+        }
+        
+        return Results.Ok(service.GetHabitLongestStreakAsync(id, cancellationToken));
+    }
+
+    private static async Task<IResult> UpdateCompletionStatus(int id, DateOnly date, IHabitService service)
+    {
+        var habit = await service.GetHabitAsync(id, CancellationToken.None);
+
+        if (habit is null)
+        {
+            return Results.NotFound();
+        }
+        
+        return Results.Ok(service.UpdateHabitStatus(id, date));
+    }
 }
