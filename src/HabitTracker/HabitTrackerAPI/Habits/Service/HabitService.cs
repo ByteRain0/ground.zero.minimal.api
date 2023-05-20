@@ -133,7 +133,7 @@ public class HabitService : IHabitService
             previousDate = day.Date;
         }
 
-// Check if the last streak is the longest
+        // Check if the last streak is the longest
         if (currentStreak > longestStreak)
         {
             longestStreak = currentStreak;
@@ -146,8 +146,9 @@ public class HabitService : IHabitService
         CancellationToken cancellationToken) =>
         await _applicationDbContext
             .DaysInformation
-                //Somewhat of a magic number but it's just for PoC.
-            .Where(x => x.Date >= new DateOnly(specificDay.Year, specificDay.Month, 1) && x.HabitId == habitId)
+            //Somewhat of a magic number but it's just for PoC.
+            .Where(x => x.Date >= new DateOnly(specificDay.Year, specificDay.Month, 1))
+            .Where(x => x.HabitId == habitId)
             .Select(x => new DayInformation
                 {
                     Date = x.Date,
@@ -155,23 +156,23 @@ public class HabitService : IHabitService
                 }
             ).ToListAsync(cancellationToken);
 
-    public async Task<Habit?> UpdateHabitAsync(Habit model)
+    public async Task<bool> UpdateHabitAsync(Habit model)
     {
         var habit = await GetHabitAsync(model.Id);
 
         if (habit is null)
         {
-            return null;
+            return false;
         }
 
         habit.Name = model.Name;
         _applicationDbContext.Habits.Update(habit);
         await _applicationDbContext.SaveChangesAsync();
 
-        return model;
+        return true;
     }
 
-    public async Task<bool> UpdateHabitStatus(int habitId, DateOnly date)
+    public async Task<bool> RemoveCompletedDay(int habitId, DateOnly date)
     {
         var habit = await GetHabitAsync(habitId);
 
@@ -179,34 +180,61 @@ public class HabitService : IHabitService
         {
             return false;
         }
-
+        
         var completionEntry = await _applicationDbContext
             .DaysInformation
             .FirstOrDefaultAsync(x => x.HabitId == habitId && x.Date == date);
 
         if (completionEntry is null)
         {
-            await _applicationDbContext.DaysInformation.AddAsync(new DayInformationDataModel
-            {
-                Date = date,
-                HabitId = habitId
-            });
-        }
-        else
-        {
-            _applicationDbContext.DaysInformation.Remove(completionEntry);
+            return true;
         }
 
+        _applicationDbContext.Remove(completionEntry);
+        await _applicationDbContext.SaveChangesAsync();
+        return true;
+    }
+    
+    public async Task<bool> AddCompletedDay(int habitId, DateOnly date)
+    {
+        var habit = await GetHabitAsync(habitId);
+
+        if (habit is null)
+        {
+            return false;
+        }
+        
+        var completionEntry = await _applicationDbContext
+            .DaysInformation
+            .FirstOrDefaultAsync(x => x.HabitId == habitId && x.Date == date);
+
+        if (completionEntry is not null)
+        {
+            return true;
+        }
+        
+        await _applicationDbContext.DaysInformation.AddAsync(new DayInformationDataModel
+        {
+            Date = date,
+            HabitId = habitId
+        });
         await _applicationDbContext.SaveChangesAsync();
         return true;
     }
 
-    public async Task RemoveHabitAsync(int habitId)
+    public async Task<bool> RemoveHabitAsync(int habitId)
     {
-        // We already ensure the entity exists before removing it.
-        // A new way to remove entities by id is on its way as far as I know so we will replace to that afterwards.
-        _applicationDbContext.Habits.Remove((await _applicationDbContext.Habits.FindAsync(habitId))!);
+        var habit = await GetHabitAsync(habitId);
+
+        if (habit == null)
+        {
+            return false;
+        }
+        
+        _applicationDbContext.Habits.Remove(habit);
         await _applicationDbContext.SaveChangesAsync();
+
+        return true;
     }
 
     private async Task<HabitDataDataModel?> GetHabitAsync(int habitId)

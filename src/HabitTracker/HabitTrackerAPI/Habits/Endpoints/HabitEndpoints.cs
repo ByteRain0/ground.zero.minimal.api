@@ -49,20 +49,25 @@ internal class HabitEndpoints : IEndpointsDefinition
             .Produces<List<DayInformation>>(200)
             .WithName("MonthlyCompletionStatus");
 
-        group.MapGet("/{id:int}/currentStreak", GetCurrentStreak)
+        group.MapGet("/{id:int}/currentStreak", GetCurrentStreakAsync)
             .Produces(404)
             .Produces<int>(200)
-            .WithName("CurrentHabitStreak");
+            .WithName("GetCurrentStreak");
         
-        group.MapGet("/{id:int}/longestStreak", GetLongestStreak)
+        group.MapGet("/{id:int}/longestStreak", GetLongestStreakAsync)
             .Produces(404)
             .Produces<int>(200)
-            .WithName("CurrentHabitLongestStreak");
+            .WithName("GetLongestStreak");
 
-        group.MapPut("/{id:int}/status/{date}", UpdateCompletionStatus)
+        group.MapDelete("/{id:int}/status/{date}", RemoveCompletionStatusAsync)
             .Produces(404)
-            .Produces(200)
-            .WithName("UpdateCompletionStatus");
+            .Produces(204)
+            .WithName("RemoveCompletionStatus");
+        
+        group.MapPost("/{id:int}/status/{date}", AddCompletionStatusAsync)
+            .Produces(404)
+            .Produces(201)
+            .WithName("AddCompletionStatus");
     }
     
     private static async Task<IResult> CreateHabitAsync(
@@ -104,31 +109,16 @@ internal class HabitEndpoints : IEndpointsDefinition
         IHabitService service)
     {
         model.Id = id;
-        
-        var habit = await service.UpdateHabitAsync(model);
-
-        if (habit == null)
-        {
-            return Results.NotFound();
-        }
-
-        return Results.Ok(habit);
+        var updated = await service.UpdateHabitAsync(model);
+        return updated ? Results.Ok() : Results.NotFound();
     }
 
     private static async Task<IResult> RemoveHabitAsync(
         int id, 
         IHabitService service)
-    {   
-        var habit = await service.GetHabitAsync(id, CancellationToken.None);
-
-        if (habit is null)
-        {
-            return Results.NotFound();
-        }
-
-        await service.RemoveHabitAsync(id);
-
-        return Results.Ok();
+    {
+        var removed = await service.RemoveHabitAsync(id);
+        return removed ? Results.NoContent() : Results.NotFound();
     }
 
     private static async Task<IResult> GetMonthlyCompletionStatus(
@@ -149,7 +139,7 @@ internal class HabitEndpoints : IEndpointsDefinition
                 id, DateOnly.FromDateTime(dateTimeProvider.CurrentTime()), cancellationToken));
     }
 
-    private static async Task<IResult> GetCurrentStreak(
+    private static async Task<IResult> GetCurrentStreakAsync(
         int id,
         IHabitService service,
         IDateTimeProvider timeProvider,
@@ -166,37 +156,32 @@ internal class HabitEndpoints : IEndpointsDefinition
         return Results.Ok(await service.GetHabitCurrentStreakAsync(id, DateOnly.FromDateTime(timeProvider.CurrentTime()), cancellationToken));
     }
     
-    private static async Task<IResult> GetLongestStreak(
+    private static async Task<IResult> GetLongestStreakAsync(
         int id, 
         IHabitService service,
         CancellationToken cancellationToken)
     {
         var habit = await service.GetHabitAsync(id, CancellationToken.None);
-
-        if (habit is null)
-        {
-            return Results.NotFound();
-        }
-        
-        return Results.Ok(await service.GetHabitLongestStreakAsync(id, cancellationToken));
+        return habit == null ? 
+            Results.NotFound() 
+            : Results.Ok(await service.GetHabitLongestStreakAsync(id, cancellationToken)) ;
     }
 
-    private static async Task<IResult> UpdateCompletionStatus(int id, DateOnly date, IHabitService service)
+    private static async Task<IResult> AddCompletionStatusAsync(
+        int id, 
+        DateOnly date, 
+        IHabitService service,
+        LinkGenerator linkGenerator, 
+        HttpContext context)
     {
-        var habit = await service.GetHabitAsync(id, CancellationToken.None);
-
-        if (habit is null)
-        {
-            return Results.NotFound();
-        }
-
-        var operationIsSuccess = await service.UpdateHabitStatus(id, date);
-
-        if (operationIsSuccess)
-        {
-            return Results.Ok();
-        }
-
-        return Results.Problem("Issue encountered while updating the entry");
+        var created = await service.AddCompletedDay(id, date);
+        var path = linkGenerator.GetUriByName(context, "MonthlyCompletionStatus", new { id = id })!;
+        return created ? Results.Created(path, default) : Results.NotFound();
+    }
+    
+    private static async Task<IResult> RemoveCompletionStatusAsync(int id, DateOnly date, IHabitService service)
+    {
+        var removed = await service.RemoveCompletedDay(id, date);
+        return removed ? Results.NoContent() : Results.NotFound();
     }
 }

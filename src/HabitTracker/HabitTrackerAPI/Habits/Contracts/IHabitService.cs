@@ -10,15 +10,17 @@ public interface IHabitService
 
     ValueTask<List<Habit>> GetHabitsAsync(CancellationToken cancellationToken);
 
-    Task<Habit?> UpdateHabitAsync(Habit habit);
+    Task<bool> UpdateHabitAsync(Habit habit);
 
-    Task RemoveHabitAsync(int habitId);
+    Task<bool> RemoveHabitAsync(int habitId);
 
     ValueTask<int> GetHabitCurrentStreakAsync(int habitId, DateOnly currentDate, CancellationToken cancellationToken);
 
     ValueTask<int> GetHabitLongestStreakAsync(int habitId, CancellationToken cancellationToken);
 
-    Task<bool> UpdateHabitStatus(int habitId, DateOnly date);
+    Task<bool> RemoveCompletedDay(int habitId, DateOnly date);
+
+    Task<bool> AddCompletedDay(int habitId, DateOnly date);
 
     ValueTask<List<DayInformation>> GetMonthlyCompletionStatus(int habitId, DateOnly specificDay, CancellationToken cancellationToken);
 }
