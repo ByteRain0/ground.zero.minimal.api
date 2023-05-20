@@ -1,5 +1,5 @@
 using HabitTrackerAPI.Habits.Data.DataModel;
-using HabitTrackerAPI.Infrastructure;
+using HabitTrackerAPI.Infrastructure.Token;
 using Microsoft.EntityFrameworkCore;
 
 namespace HabitTrackerAPI.Habits.Data;
@@ -26,8 +26,8 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         modelBuilder.SeedHabits();
     }
-
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {
         var entries = ChangeTracker.Entries();
         foreach (var entry in entries)

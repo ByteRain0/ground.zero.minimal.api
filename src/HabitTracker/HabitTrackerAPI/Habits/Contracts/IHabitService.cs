@@ -14,7 +14,7 @@ public interface IHabitService
 
     Task RemoveHabitAsync(int habitId);
 
-    ValueTask<int> GetHabitCurrentStreakAsync(int habitId, CancellationToken cancellationToken);
+    ValueTask<int> GetHabitCurrentStreakAsync(int habitId, DateOnly currentDate, CancellationToken cancellationToken);
 
     ValueTask<int> GetHabitLongestStreakAsync(int habitId, CancellationToken cancellationToken);
 

@@ -1,6 +1,7 @@
 using HabitTrackerAPI.Habits.Contracts;
 using HabitTrackerAPI.Habits.Contracts.Models;
 using HabitTrackerAPI.Infrastructure;
+using HabitTrackerAPI.Infrastructure.DateTime;
 using HabitTrackerAPI.Infrastructure.Endpoints;
 using O9d.AspNet.FluentValidation;
 
@@ -143,7 +144,7 @@ internal class HabitEndpoints : IEndpointsDefinition
             return Results.NotFound();
         }
 
-        return Results.Ok(
+        return Results.Ok(await 
             service.GetMonthlyCompletionStatus(
                 id, DateOnly.FromDateTime(dateTimeProvider.CurrentTime()), cancellationToken));
     }
@@ -151,6 +152,7 @@ internal class HabitEndpoints : IEndpointsDefinition
     private static async Task<IResult> GetCurrentStreak(
         int id,
         IHabitService service,
+        IDateTimeProvider timeProvider,
         CancellationToken cancellationToken)
     {
         // Might want to move this to a separate private method to deduplicate code.
@@ -161,7 +163,7 @@ internal class HabitEndpoints : IEndpointsDefinition
             return Results.NotFound();
         }
         
-        return Results.Ok(service.GetHabitCurrentStreakAsync(id, cancellationToken));
+        return Results.Ok(await service.GetHabitCurrentStreakAsync(id, DateOnly.FromDateTime(timeProvider.CurrentTime()), cancellationToken));
     }
     
     private static async Task<IResult> GetLongestStreak(
@@ -176,7 +178,7 @@ internal class HabitEndpoints : IEndpointsDefinition
             return Results.NotFound();
         }
         
-        return Results.Ok(service.GetHabitLongestStreakAsync(id, cancellationToken));
+        return Results.Ok(await service.GetHabitLongestStreakAsync(id, cancellationToken));
     }
 
     private static async Task<IResult> UpdateCompletionStatus(int id, DateOnly date, IHabitService service)
@@ -187,7 +189,14 @@ internal class HabitEndpoints : IEndpointsDefinition
         {
             return Results.NotFound();
         }
-        
-        return Results.Ok(service.UpdateHabitStatus(id, date));
+
+        var operationIsSuccess = await service.UpdateHabitStatus(id, date);
+
+        if (operationIsSuccess)
+        {
+            return Results.Ok();
+        }
+
+        return Results.Problem("Issue encountered while updating the entry");
     }
 }

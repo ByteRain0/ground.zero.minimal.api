@@ -1,5 +1,6 @@
 using HabitTrackerAPI.Habits;
-using HabitTrackerAPI.Infrastructure;
+using HabitTrackerAPI.Infrastructure.DateTime;
+using HabitTrackerAPI.Infrastructure.Token;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 

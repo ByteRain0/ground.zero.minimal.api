@@ -2,7 +2,7 @@ using HabitTrackerAPI.Habits.Contracts;
 using HabitTrackerAPI.Habits.Contracts.Models;
 using HabitTrackerAPI.Habits.Data;
 using HabitTrackerAPI.Habits.Data.DataModel;
-using HabitTrackerAPI.Infrastructure;
+using HabitTrackerAPI.Infrastructure.DateTime;
 using Microsoft.EntityFrameworkCore;
 
 namespace HabitTrackerAPI.Habits.Service;
@@ -62,39 +62,22 @@ public class HabitService : IHabitService
         }).ToList();
     }
 
-    public async ValueTask<int> GetHabitCurrentStreakAsync(int habitId, CancellationToken cancellationToken)
+    public async ValueTask<int> GetHabitCurrentStreakAsync(int habitId, DateOnly currentDate, CancellationToken cancellationToken)
     {
-        var daysInformation = await _applicationDbContext.DaysInformation
+        var streakQuery = await _applicationDbContext.DaysInformation
+            .Where(d => d.Date <= currentDate)
             .Where(d => d.HabitId == habitId)
             .OrderByDescending(d => d.Date)
             .ToListAsync(cancellationToken);
-
-        var currentStreakCount = 0;
-        var counter = 0;
-
-        while (daysInformation[counter].Checked)
-        {
-            currentStreakCount++;
-            counter++;
-        }
-
-        return currentStreakCount;
-    }
-
-    public async ValueTask<int> GetHabitLongestStreakAsync(int habitId, CancellationToken cancellationToken)
-    {
-        var streakQuery =
-            await _applicationDbContext
-                .DaysInformation
-                .Where(d => d.Checked)
-                .Where(d => d.Date <= DateOnly.FromDateTime(_dateTimeProvider.CurrentTime()))
-                .Where(d => d.HabitId == habitId)
-                .OrderByDescending(d => d.Date)
-                .ToListAsync(cancellationToken: cancellationToken);
-
-        var longestStreak = 0;
+        
         var currentStreak = 0;
 
+        if (streakQuery.Any())
+        {
+            // In case we have not checked the current day return 0;
+            if (streakQuery.First().Date != currentDate) return 0;
+        }
+        
         for (var i = 0; i < streakQuery.Count; i++)
         {
             if (i > 0)
@@ -106,12 +89,7 @@ public class HabitService : IHabitService
                 }
                 else
                 {
-                    if (currentStreak > longestStreak)
-                    {
-                        longestStreak = currentStreak;
-                    }
-
-                    currentStreak = 0;
+                    break; // Exit the loop when streak is broken
                 }
             }
             else
@@ -119,26 +97,60 @@ public class HabitService : IHabitService
                 currentStreak++;
             }
         }
+        
 
-        // Check if the last streak is the longest
+        return currentStreak;
+    }
+
+    public async ValueTask<int> GetHabitLongestStreakAsync(int habitId, CancellationToken cancellationToken)
+    {
+        var streakQuery = await _applicationDbContext
+            .DaysInformation
+            .Where(d => d.Date <= DateOnly.FromDateTime(_dateTimeProvider.CurrentTime()))
+            .Where(d => d.HabitId == habitId)
+            .OrderBy(d => d.Date)
+            .ToListAsync(cancellationToken: cancellationToken);
+
+        int longestStreak = 0;
+        int currentStreak = 0;
+        DateOnly previousDate = DateOnly.FromDateTime(DateTime.MinValue);
+
+        foreach (var day in streakQuery)
+        {
+            if (day.Date == previousDate.AddDays(1))
+            {
+                currentStreak++;
+            }
+            else
+            {
+                if (currentStreak > longestStreak)
+                {
+                    longestStreak = currentStreak;
+                }
+                currentStreak = 1;
+            }
+
+            previousDate = day.Date;
+        }
+
+// Check if the last streak is the longest
         if (currentStreak > longestStreak)
         {
             longestStreak = currentStreak;
         }
 
         return longestStreak;
-        
     }
 
     public async ValueTask<List<DayInformation>> GetMonthlyCompletionStatus(int habitId, DateOnly specificDay,
         CancellationToken cancellationToken) =>
         await _applicationDbContext
             .DaysInformation
-            .Where(x => x.Date.Month == specificDay.Month && x.HabitId == habitId)
+                //Somewhat of a magic number but it's just for PoC.
+            .Where(x => x.Date >= new DateOnly(specificDay.Year, specificDay.Month, 1) && x.HabitId == habitId)
             .Select(x => new DayInformation
                 {
                     Date = x.Date,
-                    Checked = x.Checked,
                     HabitId = x.HabitId
                 }
             ).ToListAsync(cancellationToken);
@@ -177,14 +189,12 @@ public class HabitService : IHabitService
             await _applicationDbContext.DaysInformation.AddAsync(new DayInformationDataModel
             {
                 Date = date,
-                HabitId = habitId,
-                Checked = true
+                HabitId = habitId
             });
         }
         else
         {
-            completionEntry.Checked = !completionEntry.Checked;
-            _applicationDbContext.DaysInformation.Update(completionEntry);
+            _applicationDbContext.DaysInformation.Remove(completionEntry);
         }
 
         await _applicationDbContext.SaveChangesAsync();

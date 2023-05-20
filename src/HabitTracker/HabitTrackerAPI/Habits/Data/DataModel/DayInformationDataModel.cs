@@ -7,6 +7,4 @@ public class DayInformationDataModel
     public HabitDataDataModel Habit { get; set; }
 
     public DateOnly Date { get; set; }
-
-    public bool Checked { get; set; }
 }
