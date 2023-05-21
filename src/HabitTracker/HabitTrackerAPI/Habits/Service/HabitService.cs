@@ -148,6 +148,7 @@ public class HabitService : IHabitService
             .DaysInformation
             //Somewhat of a magic number but it's just for PoC.
             .Where(x => x.Date >= new DateOnly(specificDay.Year, specificDay.Month, 1))
+            .Where(x => x.Date <= new DateOnly(specificDay.Year, specificDay.Month, DateTime.DaysInMonth(specificDay.Year, specificDay.Month)))
             .Where(x => x.HabitId == habitId)
             .Select(x => new DayInformation
                 {
