@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HabitTracker.Api", "src\HabitTracker.Api\HabitTracker.Api.csproj", "{D64471CB-F1D5-42EA-A416-57EB0F20633A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4BDE98F2-6E8E-49DA-A9EE-4FDEC58895AD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{07248D65-ABF8-4B6A-BD1A-01BC8B5DACD8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HabitTracker.Api.Tests.Integration", "tests\HabitTracker.Api.Tests.Integration\HabitTracker.Api.Tests.Integration.csproj", "{057CF782-41C0-466B-BE7E-127D17174DF2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D64471CB-F1D5-42EA-A416-57EB0F20633A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D64471CB-F1D5-42EA-A416-57EB0F20633A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D64471CB-F1D5-42EA-A416-57EB0F20633A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D64471CB-F1D5-42EA-A416-57EB0F20633A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{057CF782-41C0-466B-BE7E-127D17174DF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{057CF782-41C0-466B-BE7E-127D17174DF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{057CF782-41C0-466B-BE7E-127D17174DF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{057CF782-41C0-466B-BE7E-127D17174DF2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D64471CB-F1D5-42EA-A416-57EB0F20633A} = {4BDE98F2-6E8E-49DA-A9EE-4FDEC58895AD}
+		{057CF782-41C0-466B-BE7E-127D17174DF2} = {07248D65-ABF8-4B6A-BD1A-01BC8B5DACD8}
+	EndGlobalSection
+EndGlobal
