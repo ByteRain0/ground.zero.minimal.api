@@ -3,36 +3,34 @@ using System.Net.Http.Json;
 using FluentAssertions;
 using HabitTracker.Api.Habits.Contracts.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace HabitTracker.Api.Tests.Integration;
 
 public class CreateHabitEndpointTests : 
-    IClassFixture<WebApplicationFactory<IApiMarker>>,
+    IClassFixture<ApiFactory>,
     IAsyncLifetime
 {
-    private readonly WebApplicationFactory<IApiMarker> _webApplicationFactory;
+    private readonly HttpClient _httpClient;
 
-    private List<int> _habitIds;
+    private Func<Task> _resetDatabase;
 
-    public CreateHabitEndpointTests(WebApplicationFactory<IApiMarker> webApplicationFactory)
+    public CreateHabitEndpointTests(ApiFactory webApplicationFactory)
     {
-        _webApplicationFactory = webApplicationFactory;
-        _habitIds = new List<int>();
+        _httpClient = webApplicationFactory.HttpClient;
+        _resetDatabase = webApplicationFactory.ResetDatabaseAsync;
     }
 
     [Fact]
     public async Task GivenValidHabit_CreatesHabit()
     {
         // Arrange
-        var httpClient = _webApplicationFactory.CreateClient();
         var habit = new Habit
         {
             Name = "First integration test"
         };
 
         // Act
-        var response = await httpClient.PostAsJsonAsync("api/v1/habits", habit);
+        var response = await _httpClient.PostAsJsonAsync("api/v1/habits", habit);
         var createdHabit = await response.Content.ReadFromJsonAsync<Habit>();
 
         // Assert
@@ -40,18 +38,16 @@ public class CreateHabitEndpointTests :
         createdHabit.Should().NotBeNull();
         createdHabit!.Name.Should().Be(habit.Name);
         response.Headers.Location.AbsolutePath.Should().Be($"/api/v1/habits/{createdHabit.Id}");
-        _habitIds.Add(createdHabit.Id);
     }
 
     [Fact]
     public async Task GivenInvalidHabit_ReturnsProblemDetails()
     {
         // Arrange
-        var httpClient = _webApplicationFactory.CreateClient();
         var habit = new Habit();
 
         // Act
-        var response = await httpClient.PostAsJsonAsync("api/v1/habits", habit);
+        var response = await _httpClient.PostAsJsonAsync("api/v1/habits", habit);
         var problem = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
 
         // Assert
@@ -67,12 +63,5 @@ public class CreateHabitEndpointTests :
 
     public Task InitializeAsync() => Task.CompletedTask;
 
-    public async Task DisposeAsync()
-    {
-        var httpClient = _webApplicationFactory.CreateClient();
-        foreach (var habitId in _habitIds)
-        {
-            await httpClient.DeleteAsync($"api/v1/habits/{habitId}");
-        }
-    }
+    public Task DisposeAsync() => _resetDatabase();
 }

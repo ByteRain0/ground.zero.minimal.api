@@ -18,6 +18,7 @@ builder.Services.AddHabits(builder.Configuration);
 builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
 var app = builder.Build();
+app.ApplyMigrations();
 app.UseSwagger();
 app.UseSwaggerUI(config =>
 {

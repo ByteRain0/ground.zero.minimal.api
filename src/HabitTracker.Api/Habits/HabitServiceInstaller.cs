@@ -26,4 +26,11 @@ public static class HabitServiceInstaller
     {
         app.UseEndpoints<HabitService>();
     }
+    
+    internal static void ApplyMigrations(this IApplicationBuilder app)
+    {
+        using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+        using var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+        context?.Database.Migrate();
+    }
 }
