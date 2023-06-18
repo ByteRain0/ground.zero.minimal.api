@@ -1,6 +1,7 @@
 using HabitTracker.Api.Habits;
 using HabitTracker.Api.Infrastructure.DateTime;
 using HabitTracker.Api.Infrastructure.Token;
+using HabitTracker.Api.Payment;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -16,6 +17,7 @@ builder.Services.AddSwaggerGen(config =>
 builder.Services.AddSwaggerExamplesFromAssemblyOf<Program>();
 builder.Services.AddHabits(builder.Configuration);
 builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+builder.Services.AddPaymentServices();
 
 var app = builder.Build();
 app.ApplyMigrations();

@@ -1,18 +1,20 @@
 using System.Data.Common;
 using HabitTracker.Api.Habits.Data;
+using HabitTracker.Api.Payment;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Respawn;
-using Respawn.Graph;
 using Testcontainers.SqlEdge;
 
-namespace HabitTracker.Api.Tests.Integration;
+namespace HabitTracker.Api.Tests.Integration.Infrastructure;
 
 public class ApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
 {
+    public PaymentApiServer ExternalPaymentApi { get; } = new();
+    
     private SqlEdgeContainer _sqlEdgeDb = new SqlEdgeBuilder()
         .WithPassword("HeabyHitPass1!")
         .Build();
@@ -36,11 +38,17 @@ public class ApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
             }
             
             services.AddDbContext<ApplicationDbContext>(opts => opts.UseSqlServer(_sqlEdgeDb.GetConnectionString()));
+
+            services.AddHttpClient<PaymentServiceClient>(opts =>
+            {
+                opts.BaseAddress = new Uri(ExternalPaymentApi.Url);
+            });
         });
     }
 
     public async Task InitializeAsync()
     {
+        await ExternalPaymentApi.Start();
         await _sqlEdgeDb.StartAsync();
         HttpClient = CreateClient();
         await InitializeDbRespawner();
@@ -48,6 +56,7 @@ public class ApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
 
     public async Task DisposeAsync()
     {
+        await ExternalPaymentApi.DisposeAsync();
         await _sqlEdgeDb.StopAsync();
     }
 

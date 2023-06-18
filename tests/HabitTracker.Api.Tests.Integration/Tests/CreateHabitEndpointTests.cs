@@ -2,9 +2,10 @@ using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
 using HabitTracker.Api.Habits.Contracts.Models;
+using HabitTracker.Api.Tests.Integration.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HabitTracker.Api.Tests.Integration;
+namespace HabitTracker.Api.Tests.Integration.Tests;
 
 public class CreateHabitEndpointTests : 
     IClassFixture<ApiFactory>,
