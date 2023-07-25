@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
+using AutoBogus;
 using FluentAssertions;
 using HabitTracker.Api.Habits.Contracts.Models;
 using HabitTracker.Api.Tests.Integration.Infrastructure;
@@ -25,11 +26,13 @@ public class CreateHabitEndpointTests :
     public async Task GivenValidHabit_CreatesHabit()
     {
         // Arrange
-        var habit = new Habit
-        {
-            Name = "First integration test"
-        };
 
+        var actions = new[] {"Annoy", "Bug", "Disturb"};
+        var habitDataGenerator = new AutoFaker<Habit>()
+            .RuleFor(x => x.Name, faker => $"{faker.PickRandom(actions)} {faker.Name.FullName()} with some repetitive requests.");
+
+        var habit = habitDataGenerator.Generate();
+        
         // Act
         var response = await _httpClient.PostAsJsonAsync("api/v1/habits", habit);
         var createdHabit = await response.Content.ReadFromJsonAsync<Habit>();
@@ -37,6 +40,10 @@ public class CreateHabitEndpointTests :
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         createdHabit.Should().NotBeNull();
+        
+        // In case you want to validate multiple fields at the same time you might want to match against a snapshot
+        // Snapshot.Match(createdHabit, options => options.IgnoreField("Id"));
+        
         createdHabit!.Name.Should().Be(habit.Name);
         response.Headers.Location.AbsolutePath.Should().Be($"/api/v1/habits/{createdHabit.Id}");
     }

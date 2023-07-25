@@ -8,5 +8,8 @@ public class HabitValidator : AbstractValidator<Habit>
     {
         RuleFor(x => x.Name)
             .NotEmpty();
+
+        RuleFor(x => x.Id)
+            .NotEmpty();
     }
 }

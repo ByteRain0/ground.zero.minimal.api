@@ -42,7 +42,7 @@ public class HabitService : IHabitService
 
         return new Habit
         {
-            Id = habit.Id,
+            Id = (uint)habit.Id,
             Name = habit.Name
         };
     }
@@ -56,7 +56,7 @@ public class HabitService : IHabitService
         //Might use mapper with projections
         return habits.Select(x => new Habit
         {
-            Id = x.Id,
+            Id = (uint)x.Id,
             Name = x.Name,
             Settings = new HabitSettings()
         }).ToList();
@@ -159,7 +159,7 @@ public class HabitService : IHabitService
 
     public async Task<bool> UpdateHabitAsync(Habit model)
     {
-        var habit = await GetHabitAsync(model.Id);
+        var habit = await GetHabitAsync((int)model.Id);
 
         if (habit is null)
         {

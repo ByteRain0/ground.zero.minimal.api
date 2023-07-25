@@ -15,7 +15,7 @@ public class ApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
 {
     public PaymentApiServer ExternalPaymentApi { get; } = new();
     
-    private SqlEdgeContainer _sqlEdgeDb = new SqlEdgeBuilder()
+    private readonly SqlEdgeContainer _sqlEdgeDb = new SqlEdgeBuilder()
         .WithPassword("HeabyHitPass1!")
         .Build();
 
@@ -54,7 +54,7 @@ public class ApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
         await InitializeDbRespawner();
     }
 
-    public async Task DisposeAsync()
+    public new async Task DisposeAsync()
     {
         await ExternalPaymentApi.DisposeAsync();
         await _sqlEdgeDb.StopAsync();

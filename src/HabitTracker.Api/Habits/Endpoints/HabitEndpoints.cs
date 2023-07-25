@@ -76,7 +76,7 @@ internal class HabitEndpoints : IEndpointsDefinition
         HttpContext context)
     {
         var habitId = await service.AddHabitAsync(habit);
-        habit.Id = habitId;
+        habit.Id = (uint)habitId;
         var path = linkGenerator.GetUriByName(context, "GetHabit", new { id = habitId })!;
         return Results.Created(path, habit);
     }
@@ -108,7 +108,7 @@ internal class HabitEndpoints : IEndpointsDefinition
         [Validate] Habit model, 
         IHabitService service)
     {
-        model.Id = id;
+        model.Id = (uint)id;
         var updated = await service.UpdateHabitAsync(model);
         return updated ? Results.Ok() : Results.NotFound();
     }

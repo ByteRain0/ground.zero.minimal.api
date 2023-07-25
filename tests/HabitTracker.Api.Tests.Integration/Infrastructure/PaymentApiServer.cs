@@ -8,7 +8,7 @@ namespace HabitTracker.Api.Tests.Integration.Infrastructure;
 public class PaymentApiServer : IAsyncDisposable
 {
 
-    private WireMockContainer _paymentApi = new WireMockContainerBuilder()
+    private readonly WireMockContainer _paymentApi = new WireMockContainerBuilder()
         .WithAutoRemove(true)
         .WithCleanUp(true)
         .Build();

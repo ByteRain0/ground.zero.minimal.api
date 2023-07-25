@@ -5,4 +5,5 @@ public class DayInformation
     public int HabitId { get; set; }
 
     public DateOnly Date { get; set; }
+    
 }
