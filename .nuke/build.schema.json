@@ -18,6 +18,16 @@
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
         },
+        "DockerDockerPassword": {
+          "type": "string",
+          "description": "Docker password",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
+        },
+        "DockerDockerUserName": {
+          "type": "string",
+          "description": "Docker user name",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
+        },
         "DockerRepositoriesUrl": {
           "type": "string",
           "description": "Docker repositories url"
