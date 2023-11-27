@@ -26,7 +26,6 @@ internal static partial class IBaseBuildExtensions
         => build.TryGetValue(parameterExpression)
            ?? throw new InvalidOperationException($"Cannot get value for {parameterExpression}");
     
-    
     [GeneratedRegex("[^0-9A-Za-z-]", RegexOptions.Compiled | RegexOptions.CultureInvariant)]
     private static partial Regex GetPreReleaseSuffixRegex();
 }
