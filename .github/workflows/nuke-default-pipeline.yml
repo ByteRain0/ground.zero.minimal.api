@@ -18,6 +18,9 @@ name: nuke-default-pipeline
 
 on: [push]
 
+env:
+  Environment: Release 
+
 jobs:
   ubuntu-latest:
     name: ubuntu-latest

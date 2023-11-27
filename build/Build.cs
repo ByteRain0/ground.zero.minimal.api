@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Infrastructure;
 using Infrastructure.Common;
@@ -18,7 +19,7 @@ class Build : NukeBuild, IDefaultBuildFlow
     public ApplicationVersion Version => this.UseSemanticVersion(major: 1, minor: 0);
 
     public bool ExecuteIntegrationTests => true;
-
+    
     public IReadOnlyList<DockerImageInfo> DockerImages { get; } = new[]
     {
         new DockerImageInfo(DockerImageName: "habit-tracker-api", DockerfileName: "Dockerfile"),
