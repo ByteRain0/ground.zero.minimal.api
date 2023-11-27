@@ -17,10 +17,10 @@ public interface IDockerBuild : IBaseBuild
     [Parameter("Docker repository name"), Required] 
     string RepositoryName => this.GetValue(() => RepositoryName);
 
-    [Parameter("Docker user name"),Required] [Secret]
+    [Parameter] [Secret]
     string DockerUserName => this.GetValue(() => DockerUserName);
 
-    [Parameter("Docker password"), Required] [Secret]
+    [Parameter] [Secret]
     string DockerPassword => this.GetValue(() => DockerPassword);
 
     /// <summary>

@@ -20,12 +20,10 @@
         },
         "DockerDockerPassword": {
           "type": "string",
-          "description": "Docker password",
           "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
         "DockerDockerUserName": {
           "type": "string",
-          "description": "Docker user name",
           "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
         "DockerRepositoriesUrl": {
