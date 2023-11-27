@@ -1,4 +1,3 @@
-using System;
 using Infrastructure.Common;
 using Infrastructure.Extensions;
 using Nuke.Common;

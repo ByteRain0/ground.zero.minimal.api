@@ -10,7 +10,7 @@ using Nuke.Common.CI.GitHubActions;
     GitHubActionsImage.UbuntuLatest,
     On = new[] { GitHubActionsTrigger.Push },
     InvokedTargets = new[] { nameof(RunBuild) },
-    ImportSecrets = new []{ "DOCKERUSERNAME", "DOCKERPASSWORD"})]
+    ImportSecrets = new []{ "DockerUserName", "DockerPassword"})]
 class Build : NukeBuild, IDefaultBuildFlow
 {
     public string ServiceName => "HabitTracker";

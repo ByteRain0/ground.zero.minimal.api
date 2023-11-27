@@ -34,5 +34,5 @@ jobs:
       - name: 'Run: RunBuild'
         run: ./build.cmd RunBuild
         env:
-          DOCKERUSERNAME: ${{ secrets.DOCKERUSERNAME }}
-          DOCKERPASSWORD: ${{ secrets.DOCKERPASSWORD }}
+          DockerUserName: ${{ secrets.DOCKER_USER_NAME }}
+          DockerPassword: ${{ secrets.DOCKER_PASSWORD }}

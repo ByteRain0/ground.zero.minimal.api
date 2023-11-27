@@ -18,10 +18,6 @@
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
         },
-        "DockerPassword": {
-          "type": "string",
-          "description": "DOCKERPASSWORD"
-        },
         "DockerRepositoriesUrl": {
           "type": "string",
           "description": "Docker repositories url"
@@ -29,10 +25,6 @@
         "DockerRepositoryName": {
           "type": "string",
           "description": "Docker repository name"
-        },
-        "DockerUserName": {
-          "type": "string",
-          "description": "DOCKERUSERNAME"
         },
         "Help": {
           "type": "boolean",
@@ -91,7 +83,6 @@
               "BuildDockerfileWithArtifacts",
               "CreateRelease",
               "Default",
-              "DockerLogIn",
               "PushDockerArtifacts",
               "RunBuild",
               "RunIntegrationTests"
@@ -111,7 +102,6 @@
               "BuildDockerfileWithArtifacts",
               "CreateRelease",
               "Default",
-              "DockerLogIn",
               "PushDockerArtifacts",
               "RunBuild",
               "RunIntegrationTests"

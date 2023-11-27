@@ -4,5 +4,6 @@
   "BuildCounter": "1",
   "Branch": "main",
   "DockerRepositoriesUrl": "https://hub.docker.com/",
-  "DockerRepositoryName": "razorscream/byterain0_public"
+  "DockerRepositoryName": "razorscream"
+  //"DockerRepositoryName": "razorscream/byterain0_public"
 }

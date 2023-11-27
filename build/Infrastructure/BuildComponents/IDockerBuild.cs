@@ -17,11 +17,11 @@ public interface IDockerBuild : IBaseBuild
     [Parameter("Docker repository name"), Required] 
     string RepositoryName => this.GetValue(() => RepositoryName);
 
-    [Parameter("DOCKERUSERNAME"),Required]
-    string UserName => this.GetValue(() => UserName);
+    [Parameter("Docker user name"),Required]
+    string DockerUserName => this.GetValue(() => DockerUserName);
 
-    [Parameter("DOCKERPASSWORD"), Required]
-    string Password => this.GetValue(() => Password);
+    [Parameter("Docker password"), Required]
+    string DockerPassword => this.GetValue(() => DockerPassword);
 
     /// <summary>
     /// Path for nuget packages artifacts
@@ -29,13 +29,11 @@ public interface IDockerBuild : IBaseBuild
     const string DockerContainerArtifactsPath = "/app/artifacts";
 
     IReadOnlyList<DockerImageInfo> DockerImages { get; }
-
-    string GetDockerImageTag(string dockerImageName) =>
-        $"{RepositoriesUrl.Authority}/{RepositoryName}/{dockerImageName}:{Version.FullVersion}";
-
-    /// <summary>
-    /// Dockerfile processing pipeline: build -> create container -> copy artifacts -> remove container
-    /// </summary>
+    
+    string GetDockerImageTag(string dockerImageName) => $"{RepositoryName}/{dockerImageName}:{Version.FullVersion}";
+        //$"{RepositoriesUrl.Authority}/{RepositoryName}/{dockerImageName}:{Version.FullVersion}"; //GitHub image registry setup.
+    
+        
     Target BuildDockerfileWithArtifacts => _ => _
         .Executes(() =>
         {
@@ -53,27 +51,21 @@ public interface IDockerBuild : IBaseBuild
                 this.RemoveDockerContainer(containerId);
             }
         });
-
-    Target DockerLogIn => _ => _
-        .Before(PushDockerArtifacts)
-        .Executes(() =>
-        {
-            DockerTasks.DockerLogin(settings => settings
-                .SetPassword(Password)
-                .SetUsername(UserName));
-        });
-
-
+    
     /// <summary>
     /// Push Docker image to the repository
     /// </summary>
     Target PushDockerArtifacts => _ => _
         .TryDependsOn<IIntegrationTestsBuild>(x => x.RunIntegrationTests)
         .Requires(() => RepositoriesUrl)
-        .After(DockerLogIn)
         .Executes(() =>
         {
             SetupLogging();
+            
+            DockerTasks.DockerLogin(settings => settings
+                .SetPassword(DockerPassword)
+                .SetUsername(DockerUserName));
+            
             foreach (var dockerImageInfo in DockerImages)
             {
                 DockerTasks.DockerPush(settings =>
