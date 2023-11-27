@@ -8,12 +8,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{07248D65
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HabitTracker.Api.Tests.Integration", "tests\HabitTracker.Api.Tests.Integration\HabitTracker.Api.Tests.Integration.csproj", "{7C6F2A0E-FDAF-4F76-8056-736312D11FCC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{1526C8D0-3194-4135-9169-9626A4B00A23}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1526C8D0-3194-4135-9169-9626A4B00A23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1526C8D0-3194-4135-9169-9626A4B00A23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D64471CB-F1D5-42EA-A416-57EB0F20633A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D64471CB-F1D5-42EA-A416-57EB0F20633A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D64471CB-F1D5-42EA-A416-57EB0F20633A}.Release|Any CPU.ActiveCfg = Release|Any CPU
