@@ -201,14 +201,13 @@ $(document).ready(function() {
   $("#Restore").addClass('highlight');
   $("#Compile").addClass('highlight');
   $("#Test").addClass('highlight');
-  $("#Publish_Test_Results").addClass('highlight');
   $("#Clean").hover(
     function() {
         $("#Clean").removeClass('highlight');
         $("#Restore").removeClass('highlight');
         $("#Compile").removeClass('highlight');
         $("#Test").removeClass('highlight');
-        $("#Publish_Test_Results").removeClass('highlight');
+        $("#PublishTestResults").removeClass('highlight');
         $("#Clean").addClass('highlight');
     },
     function() {
@@ -216,7 +215,6 @@ $(document).ready(function() {
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
         $("#Test").addClass('highlight');
-        $("#Publish_Test_Results").addClass('highlight');
     });
   $("#Restore").hover(
     function() {
@@ -224,7 +222,7 @@ $(document).ready(function() {
         $("#Restore").removeClass('highlight');
         $("#Compile").removeClass('highlight');
         $("#Test").removeClass('highlight');
-        $("#Publish_Test_Results").removeClass('highlight');
+        $("#PublishTestResults").removeClass('highlight');
         $("#Restore").addClass('highlight');
     },
     function() {
@@ -232,7 +230,6 @@ $(document).ready(function() {
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
         $("#Test").addClass('highlight');
-        $("#Publish_Test_Results").addClass('highlight');
     });
   $("#Compile").hover(
     function() {
@@ -240,7 +237,7 @@ $(document).ready(function() {
         $("#Restore").removeClass('highlight');
         $("#Compile").removeClass('highlight');
         $("#Test").removeClass('highlight');
-        $("#Publish_Test_Results").removeClass('highlight');
+        $("#PublishTestResults").removeClass('highlight');
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
     },
@@ -250,7 +247,6 @@ $(document).ready(function() {
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
         $("#Test").addClass('highlight');
-        $("#Publish_Test_Results").addClass('highlight');
     });
   $("#Test").hover(
     function() {
@@ -258,7 +254,7 @@ $(document).ready(function() {
         $("#Restore").removeClass('highlight');
         $("#Compile").removeClass('highlight');
         $("#Test").removeClass('highlight');
-        $("#Publish_Test_Results").removeClass('highlight');
+        $("#PublishTestResults").removeClass('highlight');
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
         $("#Test").addClass('highlight');
@@ -270,29 +266,27 @@ $(document).ready(function() {
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
         $("#Test").addClass('highlight');
-        $("#Publish_Test_Results").addClass('highlight');
     });
-  $("#Publish_Test_Results").hover(
+  $("#PublishTestResults").hover(
     function() {
         $("#Clean").removeClass('highlight');
         $("#Restore").removeClass('highlight');
         $("#Compile").removeClass('highlight');
         $("#Test").removeClass('highlight');
-        $("#Publish_Test_Results").removeClass('highlight');
+        $("#PublishTestResults").removeClass('highlight');
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
         $("#Test").addClass('highlight');
-        $("#Publish_Test_Results").addClass('highlight');
+        $("#PublishTestResults").addClass('highlight');
     },
     function() {
         $("#Restore").removeClass('highlight');
         $("#Compile").removeClass('highlight');
         $("#Test").removeClass('highlight');
-        $("#Publish_Test_Results").removeClass('highlight');
+        $("#PublishTestResults").removeClass('highlight');
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
         $("#Test").addClass('highlight');
-        $("#Publish_Test_Results").addClass('highlight');
     });
 
 });
@@ -341,8 +335,8 @@ graph LR
 Clean -.-> Restore
 Restore --> Compile
 Compile --> Test
-Test --> Publish_Test_Results
-Publish_Test_Results
+Test --> PublishTestResults
+PublishTestResults
 
 
 linkStyle default interpolate basis

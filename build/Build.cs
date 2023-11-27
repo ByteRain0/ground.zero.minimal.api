@@ -1,21 +1,7 @@
 using System;
-using System.Linq;
-using Microsoft.Build.Construction;
-using Microsoft.Build.Tasks;
 using Nuke.Common;
-using Nuke.Common.CI;
 using Nuke.Common.CI.GitHubActions;
-using Nuke.Common.Execution;
-using Nuke.Common.IO;
-using Nuke.Common.ProjectModel;
-using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
-using Nuke.Common.Tools.MSBuild;
-using Nuke.Common.Utilities.Collections;
-using Serilog;
-using static Nuke.Common.EnvironmentInfo;
-using static Nuke.Common.IO.FileSystemTasks;
-using static Nuke.Common.IO.PathConstruction;
 
 [GitHubActions(
     "hiroshima",
@@ -26,7 +12,9 @@ class Build : NukeBuild
 {
     public static int Main() => Execute<Build>(x => x.PublishTestResults);
 
-    static readonly string TestResultsDirectory = "TestResults";
+    static readonly string TestResultsDirectory = RootDirectory / "TestResults";
+
+    static readonly string TestResultsOutputDirectory = RootDirectory / "TestResults" / "*.trx";
 
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
@@ -65,7 +53,7 @@ class Build : NukeBuild
 
     Target PublishTestResults => _ => _
         .DependsOn(Test)
-        .Produces(TestResultsDirectory + "/*.trx")
+        .Produces(TestResultsOutputDirectory)
         .Executes(() =>
         {
             // PublishTestResults target implementation
