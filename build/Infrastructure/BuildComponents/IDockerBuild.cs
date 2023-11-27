@@ -59,8 +59,8 @@ public interface IDockerBuild : IBaseBuild
         .Executes(() =>
         {
             DockerTasks.DockerLogin(settings => settings
-                .SetPassword("")
-                .SetUsername(""));
+                .SetPassword(Password)
+                .SetUsername(UserName));
         });
 
 
