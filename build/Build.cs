@@ -1,73 +1,34 @@
-using System;
+using System.Collections.Generic;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Extensions;
 using Nuke.Common;
 using Nuke.Common.CI.GitHubActions;
-using Nuke.Common.Tools.DotNet;
 
 [GitHubActions(
-    "hiroshima",
+    "nuke-default-pipeline",
     GitHubActionsImage.UbuntuLatest,
     On = new[] { GitHubActionsTrigger.Push },
-    InvokedTargets = new[] { nameof(PublishTestResults) })]
-class Build : NukeBuild
+    InvokedTargets = new[] { nameof(RunBuild) })]
+class Build : NukeBuild, IDefaultBuildFlow
 {
-    public static int Main() => Execute<Build>(x => x.PublishTestResults);
+    public string ServiceName => "HabitTracker";
 
-    static readonly string TestResultsDirectory = RootDirectory / "TestResults";
+    public ApplicationVersion Version => this.UseSemanticVersion(major: 1, minor: 0);
 
-    static readonly string TestResultsOutputDirectory = RootDirectory / "TestResults" / "*.trx";
+    public bool ExecuteIntegrationTests => true;
 
-
-    [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
-    readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
-
-    Target Clean => _ => _
-        .Before(Restore)
-        .Executes(() =>
-        {
-            EnsureCleanDirectory(TestResultsDirectory);
-            DotNetTasks.DotNetClean();
-        });
-
-    Target Restore => _ => _
-        .Executes(() =>
-        {
-            DotNetTasks.DotNetRestore();
-        });
-
-    Target Compile => _ => _
-        .DependsOn(Restore)
-        .Executes(() =>
-        {
-            DotNetTasks.DotNetBuild();
-        });
-
-    Target Test => _ => _
-        .DependsOn(Compile)
-        .Executes(() =>
-        {
-            DotNetTasks.DotNetTest(_ => _
-                .EnableNoRestore()
-                .EnableNoBuild()
-                .SetResultsDirectory(TestResultsDirectory));
-        });
-
-    Target PublishTestResults => _ => _
-        .DependsOn(Test)
-        .Produces(TestResultsOutputDirectory)
-        .Executes(() =>
-        {
-            // PublishTestResults target implementation
-            // This target can be used to publish test results to GitHub Actions
-            Console.WriteLine($"##vso[results.publish type=VSTest;mergeFiles={TestResultsDirectory}/*.trx]");
-        });
-
-    private static void EnsureCleanDirectory(string directory)
+    public IReadOnlyList<DockerImageInfo> DockerImages { get; } = new[]
     {
-        if (System.IO.Directory.Exists(directory))
-        {
-            System.IO.Directory.Delete(directory, true);
-        }
+        new DockerImageInfo(DockerImageName: "habit-tracker-api", DockerfileName: "Dockerfile"),
+    };
 
-        System.IO.Directory.CreateDirectory(directory);
-    }
+    private Target RunBuild => _ => _
+        .DependsOn<IDefaultBuildFlow>(x => x.Default)
+        .Executes(() =>
+        {
+        });
+
+    public static int Main()
+        => Execute<Build>(x => x.RunBuild);
 }

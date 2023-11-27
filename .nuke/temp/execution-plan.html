@@ -198,95 +198,155 @@ window.addEventListener("load",function(){e.contentLoaded()},!1)}).call(e,n(9))}
 
     <script>
 $(document).ready(function() {
-  $("#Restore").addClass('highlight');
-  $("#Compile").addClass('highlight');
-  $("#Test").addClass('highlight');
-  $("#Clean").hover(
+  $("#BuildDockerfileWithArtifacts").addClass('highlight');
+  $("#RunIntegrationTests").addClass('highlight');
+  $("#PushDockerArtifacts").addClass('highlight');
+  $("#CreateRelease").addClass('highlight');
+  $("#Default").addClass('highlight');
+  $("#RunBuild").addClass('highlight');
+  $("#RunBuild").hover(
     function() {
-        $("#Clean").removeClass('highlight');
-        $("#Restore").removeClass('highlight');
-        $("#Compile").removeClass('highlight');
-        $("#Test").removeClass('highlight');
-        $("#PublishTestResults").removeClass('highlight');
-        $("#Clean").addClass('highlight');
+        $("#RunBuild").removeClass('highlight');
+        $("#Default").removeClass('highlight');
+        $("#BuildDockerfileWithArtifacts").removeClass('highlight');
+        $("#PushDockerArtifacts").removeClass('highlight');
+        $("#RunIntegrationTests").removeClass('highlight');
+        $("#CreateRelease").removeClass('highlight');
+        $("#BuildDockerfileWithArtifacts").addClass('highlight');
+        $("#RunIntegrationTests").addClass('highlight');
+        $("#PushDockerArtifacts").addClass('highlight');
+        $("#CreateRelease").addClass('highlight');
+        $("#Default").addClass('highlight');
+        $("#RunBuild").addClass('highlight');
     },
     function() {
-        $("#Clean").removeClass('highlight');
-        $("#Restore").addClass('highlight');
-        $("#Compile").addClass('highlight');
-        $("#Test").addClass('highlight');
+        $("#BuildDockerfileWithArtifacts").removeClass('highlight');
+        $("#RunIntegrationTests").removeClass('highlight');
+        $("#PushDockerArtifacts").removeClass('highlight');
+        $("#CreateRelease").removeClass('highlight');
+        $("#Default").removeClass('highlight');
+        $("#RunBuild").removeClass('highlight');
+        $("#BuildDockerfileWithArtifacts").addClass('highlight');
+        $("#RunIntegrationTests").addClass('highlight');
+        $("#PushDockerArtifacts").addClass('highlight');
+        $("#CreateRelease").addClass('highlight');
+        $("#Default").addClass('highlight');
+        $("#RunBuild").addClass('highlight');
     });
-  $("#Restore").hover(
+  $("#Default").hover(
     function() {
-        $("#Clean").removeClass('highlight');
-        $("#Restore").removeClass('highlight');
-        $("#Compile").removeClass('highlight');
-        $("#Test").removeClass('highlight');
-        $("#PublishTestResults").removeClass('highlight');
-        $("#Restore").addClass('highlight');
+        $("#RunBuild").removeClass('highlight');
+        $("#Default").removeClass('highlight');
+        $("#BuildDockerfileWithArtifacts").removeClass('highlight');
+        $("#PushDockerArtifacts").removeClass('highlight');
+        $("#RunIntegrationTests").removeClass('highlight');
+        $("#CreateRelease").removeClass('highlight');
+        $("#BuildDockerfileWithArtifacts").addClass('highlight');
+        $("#RunIntegrationTests").addClass('highlight');
+        $("#PushDockerArtifacts").addClass('highlight');
+        $("#CreateRelease").addClass('highlight');
+        $("#Default").addClass('highlight');
     },
     function() {
-        $("#Restore").removeClass('highlight');
-        $("#Restore").addClass('highlight');
-        $("#Compile").addClass('highlight');
-        $("#Test").addClass('highlight');
+        $("#BuildDockerfileWithArtifacts").removeClass('highlight');
+        $("#RunIntegrationTests").removeClass('highlight');
+        $("#PushDockerArtifacts").removeClass('highlight');
+        $("#CreateRelease").removeClass('highlight');
+        $("#Default").removeClass('highlight');
+        $("#BuildDockerfileWithArtifacts").addClass('highlight');
+        $("#RunIntegrationTests").addClass('highlight');
+        $("#PushDockerArtifacts").addClass('highlight');
+        $("#CreateRelease").addClass('highlight');
+        $("#Default").addClass('highlight');
+        $("#RunBuild").addClass('highlight');
     });
-  $("#Compile").hover(
+  $("#BuildDockerfileWithArtifacts").hover(
     function() {
-        $("#Clean").removeClass('highlight');
-        $("#Restore").removeClass('highlight');
-        $("#Compile").removeClass('highlight');
-        $("#Test").removeClass('highlight');
-        $("#PublishTestResults").removeClass('highlight');
-        $("#Restore").addClass('highlight');
-        $("#Compile").addClass('highlight');
+        $("#RunBuild").removeClass('highlight');
+        $("#Default").removeClass('highlight');
+        $("#BuildDockerfileWithArtifacts").removeClass('highlight');
+        $("#PushDockerArtifacts").removeClass('highlight');
+        $("#RunIntegrationTests").removeClass('highlight');
+        $("#CreateRelease").removeClass('highlight');
+        $("#BuildDockerfileWithArtifacts").addClass('highlight');
     },
     function() {
-        $("#Restore").removeClass('highlight');
-        $("#Compile").removeClass('highlight');
-        $("#Restore").addClass('highlight');
-        $("#Compile").addClass('highlight');
-        $("#Test").addClass('highlight');
+        $("#BuildDockerfileWithArtifacts").removeClass('highlight');
+        $("#BuildDockerfileWithArtifacts").addClass('highlight');
+        $("#RunIntegrationTests").addClass('highlight');
+        $("#PushDockerArtifacts").addClass('highlight');
+        $("#CreateRelease").addClass('highlight');
+        $("#Default").addClass('highlight');
+        $("#RunBuild").addClass('highlight');
     });
-  $("#Test").hover(
+  $("#PushDockerArtifacts").hover(
     function() {
-        $("#Clean").removeClass('highlight');
-        $("#Restore").removeClass('highlight');
-        $("#Compile").removeClass('highlight');
-        $("#Test").removeClass('highlight');
-        $("#PublishTestResults").removeClass('highlight');
-        $("#Restore").addClass('highlight');
-        $("#Compile").addClass('highlight');
-        $("#Test").addClass('highlight');
+        $("#RunBuild").removeClass('highlight');
+        $("#Default").removeClass('highlight');
+        $("#BuildDockerfileWithArtifacts").removeClass('highlight');
+        $("#PushDockerArtifacts").removeClass('highlight');
+        $("#RunIntegrationTests").removeClass('highlight');
+        $("#CreateRelease").removeClass('highlight');
+        $("#BuildDockerfileWithArtifacts").addClass('highlight');
+        $("#RunIntegrationTests").addClass('highlight');
+        $("#PushDockerArtifacts").addClass('highlight');
     },
     function() {
-        $("#Restore").removeClass('highlight');
-        $("#Compile").removeClass('highlight');
-        $("#Test").removeClass('highlight');
-        $("#Restore").addClass('highlight');
-        $("#Compile").addClass('highlight');
-        $("#Test").addClass('highlight');
+        $("#BuildDockerfileWithArtifacts").removeClass('highlight');
+        $("#RunIntegrationTests").removeClass('highlight');
+        $("#PushDockerArtifacts").removeClass('highlight');
+        $("#BuildDockerfileWithArtifacts").addClass('highlight');
+        $("#RunIntegrationTests").addClass('highlight');
+        $("#PushDockerArtifacts").addClass('highlight');
+        $("#CreateRelease").addClass('highlight');
+        $("#Default").addClass('highlight');
+        $("#RunBuild").addClass('highlight');
     });
-  $("#PublishTestResults").hover(
+  $("#RunIntegrationTests").hover(
     function() {
-        $("#Clean").removeClass('highlight');
-        $("#Restore").removeClass('highlight');
-        $("#Compile").removeClass('highlight');
-        $("#Test").removeClass('highlight');
-        $("#PublishTestResults").removeClass('highlight');
-        $("#Restore").addClass('highlight');
-        $("#Compile").addClass('highlight');
-        $("#Test").addClass('highlight');
-        $("#PublishTestResults").addClass('highlight');
+        $("#RunBuild").removeClass('highlight');
+        $("#Default").removeClass('highlight');
+        $("#BuildDockerfileWithArtifacts").removeClass('highlight');
+        $("#PushDockerArtifacts").removeClass('highlight');
+        $("#RunIntegrationTests").removeClass('highlight');
+        $("#CreateRelease").removeClass('highlight');
+        $("#BuildDockerfileWithArtifacts").addClass('highlight');
+        $("#RunIntegrationTests").addClass('highlight');
     },
     function() {
-        $("#Restore").removeClass('highlight');
-        $("#Compile").removeClass('highlight');
-        $("#Test").removeClass('highlight');
-        $("#PublishTestResults").removeClass('highlight');
-        $("#Restore").addClass('highlight');
-        $("#Compile").addClass('highlight');
-        $("#Test").addClass('highlight');
+        $("#BuildDockerfileWithArtifacts").removeClass('highlight');
+        $("#RunIntegrationTests").removeClass('highlight');
+        $("#BuildDockerfileWithArtifacts").addClass('highlight');
+        $("#RunIntegrationTests").addClass('highlight');
+        $("#PushDockerArtifacts").addClass('highlight');
+        $("#CreateRelease").addClass('highlight');
+        $("#Default").addClass('highlight');
+        $("#RunBuild").addClass('highlight');
+    });
+  $("#CreateRelease").hover(
+    function() {
+        $("#RunBuild").removeClass('highlight');
+        $("#Default").removeClass('highlight');
+        $("#BuildDockerfileWithArtifacts").removeClass('highlight');
+        $("#PushDockerArtifacts").removeClass('highlight');
+        $("#RunIntegrationTests").removeClass('highlight');
+        $("#CreateRelease").removeClass('highlight');
+        $("#BuildDockerfileWithArtifacts").addClass('highlight');
+        $("#RunIntegrationTests").addClass('highlight');
+        $("#PushDockerArtifacts").addClass('highlight');
+        $("#CreateRelease").addClass('highlight');
+    },
+    function() {
+        $("#BuildDockerfileWithArtifacts").removeClass('highlight');
+        $("#RunIntegrationTests").removeClass('highlight');
+        $("#PushDockerArtifacts").removeClass('highlight');
+        $("#CreateRelease").removeClass('highlight');
+        $("#BuildDockerfileWithArtifacts").addClass('highlight');
+        $("#RunIntegrationTests").addClass('highlight');
+        $("#PushDockerArtifacts").addClass('highlight');
+        $("#CreateRelease").addClass('highlight');
+        $("#Default").addClass('highlight');
+        $("#RunBuild").addClass('highlight');
     });
 
 });
@@ -332,11 +392,12 @@ $(document).ready(function() {
     
     <div class="mermaid">
 graph LR
-Clean -.-> Restore
-Restore --> Compile
-Compile --> Test
-Test --> PublishTestResults
-PublishTestResults
+RunBuild
+Default --> RunBuild
+BuildDockerfileWithArtifacts --> RunIntegrationTests
+PushDockerArtifacts --> CreateRelease
+RunIntegrationTests --> PushDockerArtifacts
+CreateRelease --> Default
 
 
 linkStyle default interpolate basis
