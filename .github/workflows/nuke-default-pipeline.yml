@@ -33,3 +33,6 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj', '**/Directory.Packages.props') }}
       - name: 'Run: RunBuild'
         run: ./build.cmd RunBuild
+        env:
+          DOCKERUSERNAME: ${{ secrets.DOCKERUSERNAME }}
+          DOCKERPASSWORD: ${{ secrets.DOCKERPASSWORD }}

@@ -9,7 +9,8 @@ using Nuke.Common.CI.GitHubActions;
     "nuke-default-pipeline",
     GitHubActionsImage.UbuntuLatest,
     On = new[] { GitHubActionsTrigger.Push },
-    InvokedTargets = new[] { nameof(RunBuild) })]
+    InvokedTargets = new[] { nameof(RunBuild) },
+    ImportSecrets = new []{ "DOCKERUSERNAME", "DOCKERPASSWORD"})]
 class Build : NukeBuild, IDefaultBuildFlow
 {
     public string ServiceName => "HabitTracker";

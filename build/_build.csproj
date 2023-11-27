@@ -18,14 +18,18 @@
 
 
   <ItemGroup>
-    <Folder Include="logs\" />
+    <None Remove="..\.github\workflows\nuke-default-pipeline.yml" />
+    <None Remove="..\.github\workflows\hiroshima.yml" />
+    <None Remove="..\.nuke\temp\build.2023-11-27_15-44-30.log" />
   </ItemGroup>
 
 
 
+
+
+
   <ItemGroup>
-    <None Remove="..\.github\workflows\nuke-default-pipeline.yml" />
-    <None Remove="..\.github\workflows\hiroshima.yml" />
+    <Folder Include="logs\" />
   </ItemGroup>
 
 </Project>

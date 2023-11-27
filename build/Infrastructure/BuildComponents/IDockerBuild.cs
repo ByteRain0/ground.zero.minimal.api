@@ -8,21 +8,30 @@ using Serilog;
 
 namespace Infrastructure.BuildComponents;
 
-
 [ParameterPrefix("Docker")]
 public interface IDockerBuild : IBaseBuild
 {
-    [Parameter("Docker repositories url"), Required]
+    [Parameter("Docker repositories url"), Required] 
     Uri RepositoriesUrl => this.GetValue(() => RepositoriesUrl);
 
-    [Parameter("Docker repository name"), Required]
+    [Parameter("Docker repository name"), Required] 
     string RepositoryName => this.GetValue(() => RepositoryName);
 
+    [Parameter("DOCKERUSERNAME"),Required]
+    string UserName => this.GetValue(() => UserName);
+
+    [Parameter("DOCKERPASSWORD"), Required]
+    string Password => this.GetValue(() => Password);
+
+    /// <summary>
+    /// Path for nuget packages artifacts
+    /// </summary>
     const string DockerContainerArtifactsPath = "/app/artifacts";
 
     IReadOnlyList<DockerImageInfo> DockerImages { get; }
 
-    string GetDockerImageTag(string dockerImageName) => $"{RepositoriesUrl.Authority}/{RepositoryName}/{dockerImageName}:{Version.FullVersion}";
+    string GetDockerImageTag(string dockerImageName) =>
+        $"{RepositoriesUrl.Authority}/{RepositoryName}/{dockerImageName}:{Version.FullVersion}";
 
     /// <summary>
     /// Dockerfile processing pipeline: build -> create container -> copy artifacts -> remove container
@@ -31,12 +40,13 @@ public interface IDockerBuild : IBaseBuild
         .Executes(() =>
         {
             SetupLogging();
-            
+
             foreach (var dockerImageInfo in DockerImages)
             {
                 this.BuildDockerfile(dockerImageInfo);
 
                 var containerId = this.CreateDockerContainer(dockerImageInfo.DockerImageName);
+
                 //TODO: uncomment if we have any nuget packages to deploy.
                 //this.CopyArtifactsFromContainer(containerId);
 
@@ -44,26 +54,35 @@ public interface IDockerBuild : IBaseBuild
             }
         });
 
+    Target DockerLogIn => _ => _
+        .Before(PushDockerArtifacts)
+        .Executes(() =>
+        {
+            DockerTasks.DockerLogin(settings => settings
+                .SetPassword("")
+                .SetUsername(""));
+        });
+
+
     /// <summary>
     /// Push Docker image to the repository
     /// </summary>
     Target PushDockerArtifacts => _ => _
         .TryDependsOn<IIntegrationTestsBuild>(x => x.RunIntegrationTests)
         .Requires(() => RepositoriesUrl)
+        .After(DockerLogIn)
         .Executes(() =>
         {
             SetupLogging();
-            
             foreach (var dockerImageInfo in DockerImages)
             {
-                // DockerPush(settings => settings.SetName(GetDockerImageNameTag(dockerImageInfo.DockerImageName)));
-                Log.Information("Docker image {DockerImageName} was pushed to {Url}", 
+                DockerTasks.DockerPush(settings =>
+                    settings.SetName(GetDockerImageTag(dockerImageInfo.DockerImageName)));
+                Log.Information("Docker image {DockerImageName} was pushed to {Url}",
                     dockerImageInfo.DockerImageName, GetDockerImageTag(dockerImageInfo.DockerImageName));
             }
         });
 
-    // // Workaround for logging issue in Nuke with Docker tasks
-    // // See more details here: https://nuke.build/faq
     static void SetupLogging() => DockerTasks.DockerLogger = (_, s) =>
     {
         if (s.Contains("[build-error]"))

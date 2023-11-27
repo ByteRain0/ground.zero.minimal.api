@@ -3,6 +3,6 @@
   "Solution": "HabitTracker.sln",
   "BuildCounter": "1",
   "Branch": "main",
-  "DockerRepositoriesUrl": "https://hub.docker.com/r/razorscream/byterain0_public",
-  "DockerRepositoryName": "byterain0_public"
+  "DockerRepositoriesUrl": "https://hub.docker.com/",
+  "DockerRepositoryName": "razorscream/byterain0_public"
 }
