@@ -18,14 +18,9 @@
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
         },
-        "DockerDockerPassword": {
+        "DockerPassword": {
           "type": "string",
           "description": "Docker password",
-          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
-        },
-        "DockerDockerUserName": {
-          "type": "string",
-          "description": "Docker user name",
           "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
         "DockerRepositoriesUrl": {
@@ -35,6 +30,11 @@
         "DockerRepositoryName": {
           "type": "string",
           "description": "Docker repository name"
+        },
+        "DockerUserName": {
+          "type": "string",
+          "description": "Docker user name",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
         "Help": {
           "type": "boolean",

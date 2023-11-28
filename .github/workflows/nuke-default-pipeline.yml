@@ -24,8 +24,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: 'Test secrets integration'
-        run: echo ${{ secrets.TEST_SECRET }}
       - name: 'Cache: .nuke/temp, ~/.nuget/packages'
         uses: actions/cache@v3
         with:
@@ -38,4 +36,3 @@ jobs:
         env:
           DockerUserName: ${{ secrets.DOCKER_USER_NAME }}
           DockerPassword: ${{ secrets.DOCKER_PASSWORD }}
-      

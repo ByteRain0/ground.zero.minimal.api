@@ -1,16 +1,11 @@
-using Infrastructure.BuildComponents;
+using Infrastructure.BuildSteps;
 using Nuke.Common;
 
 namespace Infrastructure;
 
-
-/// <summary>
-/// Default build flow
-/// </summary>
 public interface IDefaultBuildFlow :
     IDockerBuild,
     IIntegrationTestsBuild,
-    //INuGetBuild,
     IReleaseBuild
 {
     Target Default => _ => _

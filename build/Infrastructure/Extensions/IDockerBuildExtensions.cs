@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using Infrastructure.BuildComponents;
+using Infrastructure.BuildSteps;
 using Infrastructure.Common;
 using Nuke.Common;
 using Nuke.Common.Tooling;

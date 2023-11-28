@@ -1,39 +1,42 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Infrastructure.Common;
 using Infrastructure.Extensions;
 using Nuke.Common;
 using Nuke.Common.Tools.Docker;
 using Serilog;
 
-namespace Infrastructure.BuildComponents;
+namespace Infrastructure.BuildSteps;
 
-[ParameterPrefix("Docker")]
 public interface IDockerBuild : IBaseBuild
 {
     [Parameter("Docker repositories url"), Required] 
-    Uri RepositoriesUrl => this.GetValue(() => RepositoriesUrl);
+    Uri DockerRepositoriesUrl => this.GetValue(() => DockerRepositoriesUrl);
 
     [Parameter("Docker repository name"), Required] 
-    string RepositoryName => this.GetValue(() => RepositoryName);
+    string DockerRepositoryName => this.GetValue(() => DockerRepositoryName);
 
     [Parameter("Docker user name")] [Secret]
     string DockerUserName => this.GetValue(() => DockerUserName);
 
     [Parameter("Docker password")] [Secret]
     string DockerPassword => this.GetValue(() => DockerPassword);
-
-    /// <summary>
-    /// Path for nuget packages artifacts
-    /// </summary>
+    
     const string DockerContainerArtifactsPath = "/app/artifacts";
 
     IReadOnlyList<DockerImageInfo> DockerImages { get; }
     
-    string GetDockerImageTag(string dockerImageName) => $"{RepositoryName}/{dockerImageName}:{Version.FullVersion}";
-        //$"{RepositoriesUrl.Authority}/{RepositoryName}/{dockerImageName}:{Version.FullVersion}"; //GitHub image registry setup.
+    string GetDockerImageTag(string dockerImageName, ContainerRegistryType containerRegistryType = ContainerRegistryType.PublicDockerHub)
+    {
+        return containerRegistryType switch
+        {
+            ContainerRegistryType.PublicDockerHub => $"{DockerRepositoryName}/{dockerImageName}:{Version.FullVersion}",
+            ContainerRegistryType.GitHubContainerRegistry => $"{DockerRepositoriesUrl.Authority}/{DockerRepositoryName}/{dockerImageName}:{Version.FullVersion}",
+            _ => throw new InvalidEnumArgumentException("Invalid docker container registry passed")
+        };
+    }
     
-        
     Target BuildDockerfileWithArtifacts => _ => _
         .Executes(() =>
         {
@@ -57,14 +60,14 @@ public interface IDockerBuild : IBaseBuild
     /// </summary>
     Target PushDockerArtifacts => _ => _
         .TryDependsOn<IIntegrationTestsBuild>(x => x.RunIntegrationTests)
-        .Requires(() => RepositoriesUrl)
+        .Requires(() => DockerRepositoriesUrl)
         .Executes(() =>
         {
             SetupLogging();
             
             DockerTasks.DockerLogin(settings => settings
-                .SetPassword(DockerPassword)
-                .SetUsername(DockerUserName));
+                .SetPassword(this.DockerPassword)
+                .SetUsername(this.DockerUserName));
             
             foreach (var dockerImageInfo in DockerImages)
             {

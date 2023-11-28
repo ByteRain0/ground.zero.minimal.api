@@ -1,7 +1,7 @@
 using Nuke.Common;
 using Nuke.Common.Tools.DotNet;
 
-namespace Infrastructure.BuildComponents;
+namespace Infrastructure.BuildSteps;
 
 public interface IIntegrationTestsBuild : IBaseBuild
 {

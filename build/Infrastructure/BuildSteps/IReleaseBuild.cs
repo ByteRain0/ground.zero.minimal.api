@@ -1,7 +1,7 @@
 using Nuke.Common;
 using Serilog;
 
-namespace Infrastructure.BuildComponents;
+namespace Infrastructure.BuildSteps;
 
 public interface IReleaseBuild : IBaseBuild
 {

@@ -1,10 +1,10 @@
 {
   "$schema": "./build.schema.json",
   "Solution": "HabitTracker.sln",
-  "BuildCounter": "1",
+  "BuildCounter": "1-pre",
   "Branch": "main",
   "DockerRepositoriesUrl": "https://hub.docker.com/",
   "DockerRepositoryName": "razorscream",
-  "DockerDockerPassword": "v1:J8e/1UeG89nwhxrlgvfhmA==",
-  "DockerDockerUserName": "v1:snpQUHcwdpgr9NC8BPr/UQ=="
+  "DockerPassword": "v1:J8e/1UeG89nwhxrlgvfhmA==",
+  "DockerUserName": "v1:snpQUHcwdpgr9NC8BPr/UQ=="
 }

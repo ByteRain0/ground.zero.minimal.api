@@ -5,17 +5,14 @@ using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 
-namespace Infrastructure.BuildComponents;
+namespace Infrastructure.BuildSteps;
 
 
 public interface IBaseBuild : INukeBuild
 {
     [Solution]
     Solution Solution => this.GetValue(() => Solution);
-
-    /// <summary>
-    /// Hardcoded for GitHub integration the runId.
-    /// </summary>
+    
     [Parameter("Build counter"), Required]
     string BuildCounter
     {
@@ -25,7 +22,7 @@ public interface IBaseBuild : INukeBuild
             {
                 return GitHubActions.Instance.RunId.ToString();
             }
-
+    
             return this.GetValue(() => BuildCounter);
         }
     }

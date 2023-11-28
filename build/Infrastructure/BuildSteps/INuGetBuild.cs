@@ -5,20 +5,19 @@ using Nuke.Common;
 using Nuke.Common.IO;
 using Serilog;
 
-namespace Infrastructure.BuildComponents;
+namespace Infrastructure.BuildSteps;
 
-[ParameterPrefix(nameof(NuGet))]
 public interface INuGetBuild: IBaseBuild
 {
     [Parameter("NuGet url"), Required]
-    Uri Url => this.GetValue(() => Url);
+    Uri NugetUrl => this.GetValue(() => NugetUrl);
 
     [Parameter("NuGet feed name"), Required]
-    string FeedName => this.GetValue(() => FeedName);
+    string NugetFeedName => this.GetValue(() => NugetFeedName);
 
     [Parameter("NuGet API key"), Required]
     //[Secret]
-    string ApiKey => this.GetValue(() => ApiKey);
+    string NugetApiKey => this.GetValue(() => NugetApiKey);
 
     AbsolutePath NuGetArtifactsPath => ArtifactsPath / "nuget";
     
