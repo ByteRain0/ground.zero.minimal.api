@@ -4,7 +4,5 @@
   "BuildCounter": "1-pre",
   "Branch": "main",
   "DockerRepositoriesUrl": "https://hub.docker.com/",
-  "DockerRepositoryName": "razorscream",
-  "DockerPassword": "v1:J8e/1UeG89nwhxrlgvfhmA==",
-  "DockerUserName": "v1:snpQUHcwdpgr9NC8BPr/UQ=="
+  "DockerRepositoryName": "razorscream"
 }
