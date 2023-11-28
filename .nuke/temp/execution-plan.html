@@ -209,7 +209,6 @@ $(document).ready(function() {
         $("#RunBuild").removeClass('highlight');
         $("#Default").removeClass('highlight');
         $("#BuildDockerfileWithArtifacts").removeClass('highlight');
-        $("#DockerLogIn").removeClass('highlight');
         $("#PushDockerArtifacts").removeClass('highlight');
         $("#RunIntegrationTests").removeClass('highlight');
         $("#CreateRelease").removeClass('highlight');
@@ -239,7 +238,6 @@ $(document).ready(function() {
         $("#RunBuild").removeClass('highlight');
         $("#Default").removeClass('highlight');
         $("#BuildDockerfileWithArtifacts").removeClass('highlight');
-        $("#DockerLogIn").removeClass('highlight');
         $("#PushDockerArtifacts").removeClass('highlight');
         $("#RunIntegrationTests").removeClass('highlight');
         $("#CreateRelease").removeClass('highlight');
@@ -267,7 +265,6 @@ $(document).ready(function() {
         $("#RunBuild").removeClass('highlight');
         $("#Default").removeClass('highlight');
         $("#BuildDockerfileWithArtifacts").removeClass('highlight');
-        $("#DockerLogIn").removeClass('highlight');
         $("#PushDockerArtifacts").removeClass('highlight');
         $("#RunIntegrationTests").removeClass('highlight');
         $("#CreateRelease").removeClass('highlight');
@@ -275,26 +272,6 @@ $(document).ready(function() {
     },
     function() {
         $("#BuildDockerfileWithArtifacts").removeClass('highlight');
-        $("#BuildDockerfileWithArtifacts").addClass('highlight');
-        $("#RunIntegrationTests").addClass('highlight');
-        $("#PushDockerArtifacts").addClass('highlight');
-        $("#CreateRelease").addClass('highlight');
-        $("#Default").addClass('highlight');
-        $("#RunBuild").addClass('highlight');
-    });
-  $("#DockerLogIn").hover(
-    function() {
-        $("#RunBuild").removeClass('highlight');
-        $("#Default").removeClass('highlight');
-        $("#BuildDockerfileWithArtifacts").removeClass('highlight');
-        $("#DockerLogIn").removeClass('highlight');
-        $("#PushDockerArtifacts").removeClass('highlight');
-        $("#RunIntegrationTests").removeClass('highlight');
-        $("#CreateRelease").removeClass('highlight');
-        $("#DockerLogIn").addClass('highlight');
-    },
-    function() {
-        $("#DockerLogIn").removeClass('highlight');
         $("#BuildDockerfileWithArtifacts").addClass('highlight');
         $("#RunIntegrationTests").addClass('highlight');
         $("#PushDockerArtifacts").addClass('highlight');
@@ -307,7 +284,6 @@ $(document).ready(function() {
         $("#RunBuild").removeClass('highlight');
         $("#Default").removeClass('highlight');
         $("#BuildDockerfileWithArtifacts").removeClass('highlight');
-        $("#DockerLogIn").removeClass('highlight');
         $("#PushDockerArtifacts").removeClass('highlight');
         $("#RunIntegrationTests").removeClass('highlight');
         $("#CreateRelease").removeClass('highlight');
@@ -331,7 +307,6 @@ $(document).ready(function() {
         $("#RunBuild").removeClass('highlight');
         $("#Default").removeClass('highlight');
         $("#BuildDockerfileWithArtifacts").removeClass('highlight');
-        $("#DockerLogIn").removeClass('highlight');
         $("#PushDockerArtifacts").removeClass('highlight');
         $("#RunIntegrationTests").removeClass('highlight');
         $("#CreateRelease").removeClass('highlight');
@@ -353,7 +328,6 @@ $(document).ready(function() {
         $("#RunBuild").removeClass('highlight');
         $("#Default").removeClass('highlight');
         $("#BuildDockerfileWithArtifacts").removeClass('highlight');
-        $("#DockerLogIn").removeClass('highlight');
         $("#PushDockerArtifacts").removeClass('highlight');
         $("#RunIntegrationTests").removeClass('highlight');
         $("#CreateRelease").removeClass('highlight');
@@ -421,7 +395,6 @@ graph LR
 RunBuild
 Default --> RunBuild
 BuildDockerfileWithArtifacts --> RunIntegrationTests
-DockerLogIn -.-> PushDockerArtifacts
 PushDockerArtifacts --> CreateRelease
 RunIntegrationTests --> PushDockerArtifacts
 CreateRelease --> Default
