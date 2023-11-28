@@ -36,5 +36,5 @@ public interface IBaseBuild : INukeBuild
 
     AbsolutePath ArtifactsPath => RootDirectory / ".artifacts";
 
-    AbsolutePath BuildPath => RootDirectory / "build" / "Build";
+    AbsolutePath BuildPath => RootDirectory / "build" / "build";
 }
