@@ -55,9 +55,6 @@ public interface IDockerBuild : IBaseBuild
             }
         });
     
-    /// <summary>
-    /// Push Docker image to the repository
-    /// </summary>
     Target PushDockerArtifacts => _ => _
         .TryDependsOn<IIntegrationTestsBuild>(x => x.RunIntegrationTests)
         .Requires(() => DockerRepositoriesUrl)

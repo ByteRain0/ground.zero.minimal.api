@@ -3,7 +3,7 @@ using Nuke.Common;
 
 namespace Infrastructure;
 
-public interface IDefaultBuildFlow :
+public interface IBuildPipeline :
     IDockerBuild,
     IIntegrationTestsBuild,
     IReleaseBuild

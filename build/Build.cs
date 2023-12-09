@@ -12,7 +12,7 @@ using Nuke.Common.CI.GitHubActions;
     On = new[] { GitHubActionsTrigger.Push },
     InvokedTargets = new[] { nameof(RunBuild) },
     ImportSecrets = new []{ "DockerUserName", "DockerPassword"})]
-class Build : NukeBuild, IDefaultBuildFlow
+class Build : NukeBuild, IBuildPipeline
 {
     public string ServiceName => "HabitTracker";
 
@@ -26,9 +26,9 @@ class Build : NukeBuild, IDefaultBuildFlow
     };
 
     private Target RunBuild => _ => _
-        .DependsOn<IDefaultBuildFlow>(x => x.Default)
+        .DependsOn<IBuildPipeline>(x => x.Default)
         .Executes(() =>
-        {
+         {
         });
 
     public static int Main()

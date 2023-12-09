@@ -10,7 +10,7 @@ public interface IReleaseBuild : IBaseBuild
         .TryDependsOn<IDockerBuild>(x => x.PushDockerArtifacts)
         .Executes(() =>
         {
-            // Put here any logic you need to create release using your CI/CD system API
+            //TODO: Put here any logic you need to create release using your CI/CD system API
 
             Log.Information("Release {ReleaseName} was successfully created for service {ServiceName}",
                 Version.FullVersion, ServiceName);
