@@ -1,4 +1,8 @@
 {
   "$schema": "./build.schema.json",
-  "Solution": "HabitTracker.sln"
+  "Solution": "HabitTracker.sln",
+  "BuildCounter": "1-pre",
+  "Branch": "main",
+  "DockerRepositoriesUrl": "https://hub.docker.com/",
+  "DockerRepositoryName": "razorscream"
 }

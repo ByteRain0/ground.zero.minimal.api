@@ -6,17 +6,35 @@
     "build": {
       "type": "object",
       "properties": {
-        "Configuration": {
+        "Branch": {
           "type": "string",
-          "description": "Configuration to build - Default is 'Debug' (local) or 'Release' (server)",
-          "enum": [
-            "Debug",
-            "Release"
-          ]
+          "description": "Branch name"
+        },
+        "BuildCounter": {
+          "type": "string",
+          "description": "Build counter"
         },
         "Continue": {
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
+        },
+        "DockerPassword": {
+          "type": "string",
+          "description": "Docker password",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
+        },
+        "DockerRepositoriesUrl": {
+          "type": "string",
+          "description": "Docker repositories url"
+        },
+        "DockerRepositoryName": {
+          "type": "string",
+          "description": "Docker repository name"
+        },
+        "DockerUserName": {
+          "type": "string",
+          "description": "Docker user name",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
         "Help": {
           "type": "boolean",
@@ -72,13 +90,17 @@
           "items": {
             "type": "string",
             "enum": [
-              "Clean",
-              "Compile",
-              "PublishTestResults",
-              "Restore",
-              "Test"
+              "BuildDockerfileWithArtifacts",
+              "CreateRelease",
+              "PushDockerArtifacts",
+              "RunBuild",
+              "RunIntegrationTests"
             ]
           }
+        },
+        "Solution": {
+          "type": "string",
+          "description": "Path to a solution file that is automatically loaded"
         },
         "Target": {
           "type": "array",
@@ -86,11 +108,11 @@
           "items": {
             "type": "string",
             "enum": [
-              "Clean",
-              "Compile",
-              "PublishTestResults",
-              "Restore",
-              "Test"
+              "BuildDockerfileWithArtifacts",
+              "CreateRelease",
+              "PushDockerArtifacts",
+              "RunBuild",
+              "RunIntegrationTests"
             ]
           }
         },

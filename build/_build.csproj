@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <RootNamespace></RootNamespace>
     <NoWarn>CS0649;CS0169;CA1050;CA1822;CA2211;IDE1006</NoWarn>
     <NukeRootDirectory>..</NukeRootDirectory>
@@ -14,5 +14,19 @@
   <ItemGroup>
     <PackageReference Include="Nuke.Common" Version="7.0.6" />
   </ItemGroup>
+
+
+
+  <ItemGroup>
+    <None Remove="..\.github\workflows\nuke-default-pipeline.yml" />
+    <None Remove="..\.github\workflows\hiroshima.yml" />
+    <None Remove="..\.nuke\temp\build.2023-11-27_15-44-30.log" />
+  </ItemGroup>
+
+
+
+
+
+
 
 </Project>

@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>HabitTracker.Api</RootNamespace>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
@@ -20,6 +21,12 @@
       <PackageReference Include="O9d.AspNet.FluentValidation" Version="0.1.1" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
       <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.6" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>
