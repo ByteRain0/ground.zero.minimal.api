@@ -26,7 +26,7 @@ class Build : NukeBuild, IBuildPipeline
     };
 
     private Target RunBuild => _ => _
-        .DependsOn<IBuildPipeline>(x => x.Default)
+        .DependsOn<IBuildPipeline>(x => x.CreateRelease)
         .Executes(() =>
          {
         });

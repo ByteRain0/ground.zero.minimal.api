@@ -8,6 +8,4 @@ public interface IBuildPipeline :
     IIntegrationTestsBuild,
     IReleaseBuild
 {
-    Target Default => _ => _
-        .TryDependsOn<IReleaseBuild>(x => x.CreateRelease);
 }

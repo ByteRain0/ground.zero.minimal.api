@@ -92,7 +92,6 @@
             "enum": [
               "BuildDockerfileWithArtifacts",
               "CreateRelease",
-              "Default",
               "PushDockerArtifacts",
               "RunBuild",
               "RunIntegrationTests"
@@ -111,7 +110,6 @@
             "enum": [
               "BuildDockerfileWithArtifacts",
               "CreateRelease",
-              "Default",
               "PushDockerArtifacts",
               "RunBuild",
               "RunIntegrationTests"

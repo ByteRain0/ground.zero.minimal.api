@@ -6,7 +6,6 @@ namespace Infrastructure.BuildSteps;
 public interface IReleaseBuild : IBaseBuild
 {
     Target CreateRelease => _ => _
-        .TryDependsOn<INuGetBuild>(x => x.PushNuGetArtifacts)
         .TryDependsOn<IDockerBuild>(x => x.PushDockerArtifacts)
         .Executes(() =>
         {

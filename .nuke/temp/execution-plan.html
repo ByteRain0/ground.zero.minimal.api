@@ -202,12 +202,10 @@ $(document).ready(function() {
   $("#RunIntegrationTests").addClass('highlight');
   $("#PushDockerArtifacts").addClass('highlight');
   $("#CreateRelease").addClass('highlight');
-  $("#Default").addClass('highlight');
   $("#RunBuild").addClass('highlight');
   $("#RunBuild").hover(
     function() {
         $("#RunBuild").removeClass('highlight');
-        $("#Default").removeClass('highlight');
         $("#BuildDockerfileWithArtifacts").removeClass('highlight');
         $("#PushDockerArtifacts").removeClass('highlight');
         $("#RunIntegrationTests").removeClass('highlight');
@@ -216,7 +214,6 @@ $(document).ready(function() {
         $("#RunIntegrationTests").addClass('highlight');
         $("#PushDockerArtifacts").addClass('highlight');
         $("#CreateRelease").addClass('highlight');
-        $("#Default").addClass('highlight');
         $("#RunBuild").addClass('highlight');
     },
     function() {
@@ -224,46 +221,16 @@ $(document).ready(function() {
         $("#RunIntegrationTests").removeClass('highlight');
         $("#PushDockerArtifacts").removeClass('highlight');
         $("#CreateRelease").removeClass('highlight');
-        $("#Default").removeClass('highlight');
         $("#RunBuild").removeClass('highlight');
         $("#BuildDockerfileWithArtifacts").addClass('highlight');
         $("#RunIntegrationTests").addClass('highlight');
         $("#PushDockerArtifacts").addClass('highlight');
         $("#CreateRelease").addClass('highlight');
-        $("#Default").addClass('highlight');
-        $("#RunBuild").addClass('highlight');
-    });
-  $("#Default").hover(
-    function() {
-        $("#RunBuild").removeClass('highlight');
-        $("#Default").removeClass('highlight');
-        $("#BuildDockerfileWithArtifacts").removeClass('highlight');
-        $("#PushDockerArtifacts").removeClass('highlight');
-        $("#RunIntegrationTests").removeClass('highlight');
-        $("#CreateRelease").removeClass('highlight');
-        $("#BuildDockerfileWithArtifacts").addClass('highlight');
-        $("#RunIntegrationTests").addClass('highlight');
-        $("#PushDockerArtifacts").addClass('highlight');
-        $("#CreateRelease").addClass('highlight');
-        $("#Default").addClass('highlight');
-    },
-    function() {
-        $("#BuildDockerfileWithArtifacts").removeClass('highlight');
-        $("#RunIntegrationTests").removeClass('highlight');
-        $("#PushDockerArtifacts").removeClass('highlight');
-        $("#CreateRelease").removeClass('highlight');
-        $("#Default").removeClass('highlight');
-        $("#BuildDockerfileWithArtifacts").addClass('highlight');
-        $("#RunIntegrationTests").addClass('highlight');
-        $("#PushDockerArtifacts").addClass('highlight');
-        $("#CreateRelease").addClass('highlight');
-        $("#Default").addClass('highlight');
         $("#RunBuild").addClass('highlight');
     });
   $("#BuildDockerfileWithArtifacts").hover(
     function() {
         $("#RunBuild").removeClass('highlight');
-        $("#Default").removeClass('highlight');
         $("#BuildDockerfileWithArtifacts").removeClass('highlight');
         $("#PushDockerArtifacts").removeClass('highlight');
         $("#RunIntegrationTests").removeClass('highlight');
@@ -276,13 +243,11 @@ $(document).ready(function() {
         $("#RunIntegrationTests").addClass('highlight');
         $("#PushDockerArtifacts").addClass('highlight');
         $("#CreateRelease").addClass('highlight');
-        $("#Default").addClass('highlight');
         $("#RunBuild").addClass('highlight');
     });
   $("#PushDockerArtifacts").hover(
     function() {
         $("#RunBuild").removeClass('highlight');
-        $("#Default").removeClass('highlight');
         $("#BuildDockerfileWithArtifacts").removeClass('highlight');
         $("#PushDockerArtifacts").removeClass('highlight');
         $("#RunIntegrationTests").removeClass('highlight');
@@ -299,13 +264,11 @@ $(document).ready(function() {
         $("#RunIntegrationTests").addClass('highlight');
         $("#PushDockerArtifacts").addClass('highlight');
         $("#CreateRelease").addClass('highlight');
-        $("#Default").addClass('highlight');
         $("#RunBuild").addClass('highlight');
     });
   $("#RunIntegrationTests").hover(
     function() {
         $("#RunBuild").removeClass('highlight');
-        $("#Default").removeClass('highlight');
         $("#BuildDockerfileWithArtifacts").removeClass('highlight');
         $("#PushDockerArtifacts").removeClass('highlight');
         $("#RunIntegrationTests").removeClass('highlight');
@@ -320,13 +283,11 @@ $(document).ready(function() {
         $("#RunIntegrationTests").addClass('highlight');
         $("#PushDockerArtifacts").addClass('highlight');
         $("#CreateRelease").addClass('highlight');
-        $("#Default").addClass('highlight');
         $("#RunBuild").addClass('highlight');
     });
   $("#CreateRelease").hover(
     function() {
         $("#RunBuild").removeClass('highlight');
-        $("#Default").removeClass('highlight');
         $("#BuildDockerfileWithArtifacts").removeClass('highlight');
         $("#PushDockerArtifacts").removeClass('highlight');
         $("#RunIntegrationTests").removeClass('highlight');
@@ -345,7 +306,6 @@ $(document).ready(function() {
         $("#RunIntegrationTests").addClass('highlight');
         $("#PushDockerArtifacts").addClass('highlight');
         $("#CreateRelease").addClass('highlight');
-        $("#Default").addClass('highlight');
         $("#RunBuild").addClass('highlight');
     });
 
@@ -393,11 +353,10 @@ $(document).ready(function() {
     <div class="mermaid">
 graph LR
 RunBuild
-Default --> RunBuild
 BuildDockerfileWithArtifacts --> RunIntegrationTests
 PushDockerArtifacts --> CreateRelease
 RunIntegrationTests --> PushDockerArtifacts
-CreateRelease --> Default
+CreateRelease --> RunBuild
 
 
 linkStyle default interpolate basis
