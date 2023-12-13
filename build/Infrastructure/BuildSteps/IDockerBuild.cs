@@ -38,6 +38,7 @@ public interface IDockerBuild : IBaseBuild
     }
     
     Target BuildDockerfileWithArtifacts => _ => _
+        .TryDependsOn<IIntegrationTestsBuild>(x => x.RunIntegrationTests)
         .Executes(() =>
         {
             SetupLogging();
@@ -56,7 +57,7 @@ public interface IDockerBuild : IBaseBuild
         });
     
     Target PushDockerArtifacts => _ => _
-        .TryDependsOn<IIntegrationTestsBuild>(x => x.RunIntegrationTests)
+        .DependsOn(BuildDockerfileWithArtifacts)
         .Requires(() => DockerRepositoriesUrl)
         .Executes(() =>
         {
